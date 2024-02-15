@@ -7,7 +7,7 @@ using UnityEngine;
 public class ClientSingleton : MonoBehaviour
 {
     private static ClientSingleton instance;
-    private ClientGameManager gameManager;
+    public ClientGameManager GameManager { get; private set; }
 
     public static ClientSingleton Instance
     {
@@ -32,13 +32,13 @@ public class ClientSingleton : MonoBehaviour
 
     private void Start()
     {
-        
+        DontDestroyOnLoad(gameObject);
     }
 
-    public async Task CreateClient()
+    public async Task<bool> CreateClient()
     {
-        gameManager = new ClientGameManager();
-        await gameManager.InitAsync();
+        GameManager = new ClientGameManager();
+        return await GameManager.InitAsync();
     }
     
 }
