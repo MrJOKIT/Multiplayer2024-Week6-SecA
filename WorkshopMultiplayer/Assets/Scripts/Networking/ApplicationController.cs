@@ -4,29 +4,30 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ApplicatiionController : MonoBehaviour
+public class ApplicationController : MonoBehaviour
 {
-    [SerializeField] private HostSingleton hostPrefab;
     [SerializeField] private ClientSingleton clientPrefab;
-    private void Start()
+    [SerializeField] private HostSingleton hostPrefab;
+    private async void Start()
     {
         DontDestroyOnLoad(gameObject);
-        LunchInMode(SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null);
+
+        await LaunchInMode(SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null);
     }
 
-    private async Task LunchInMode(bool isDedicatedServer)
+    private async Task LaunchInMode(bool isDedicatedServer)
     {
         if (isDedicatedServer)
         {
-            
+
         }
         else
         {
-            ClientSingleton clientSingleton = Instantiate(clientPrefab);
-           bool authenticated = await clientSingleton.CreateClient();
-            
             HostSingleton hostSingleton = Instantiate(hostPrefab);
-            await hostSingleton.CreateClient();
+            hostSingleton.CreateHost();
+
+            ClientSingleton clientSingleton = Instantiate(clientPrefab);
+            bool authenticated = await clientSingleton.CreateClient();            
 
             if (authenticated)
             {

@@ -7,13 +7,13 @@ using UnityEngine;
 public class HostSingleton : MonoBehaviour
 {
     private static HostSingleton instance;
-    private HostGameManager gameManager;
+    public HostGameManager GameManager { get; private set;}
 
     public static HostSingleton Instance
     {
         get
         {
-            if (instance == null)
+            if (instance != null)
             {
                 return instance;
             }
@@ -32,13 +32,18 @@ public class HostSingleton : MonoBehaviour
 
     private void Start()
     {
-        
+        DontDestroyOnLoad(gameObject);
     }
 
     public async Task CreateClient()
     {
-        gameManager = new HostGameManager();
-        await gameManager.InitAsync();
+        GameManager = new HostGameManager();
+        await GameManager.StartHostAsynce();
+    }
+
+    public void CreateHost()
+    {
+        GameManager = new HostGameManager();
     }
     
 }
