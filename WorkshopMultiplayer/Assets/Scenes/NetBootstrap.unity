@@ -652,7 +652,7 @@ MonoBehaviour:
       - {fileID: 11400000, guid: cdbea3801023f5f4f8dac4b2959618d8, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
-    ConnectionApproval: 0
+    ConnectionApproval: 1
     ConnectionData: 
     EnableTimeResync: 0
     TimeResyncInterval: 30
@@ -727,8 +727,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c658ddeffa02174c8eb85a57d199944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostPrefab: {fileID: 2200431123469657008, guid: 61f5e2bbf3702534786d82a186b88334, type: 3}
   clientPrefab: {fileID: 6960580758492680629, guid: d318f801991fdc6429deae2349e3c1a7, type: 3}
+  hostPrefab: {fileID: 2200431123469657008, guid: 61f5e2bbf3702534786d82a186b88334, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
