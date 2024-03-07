@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -42,9 +43,11 @@ public class NetworkServer : IDisposable
 
         clientIdToAuth[request.ClientNetworkId] = userData.userAuthId;
         authIdToUserData[userData.userAuthId] = userData;
-        Debug.Log(userData.userName);
+        //Debug.Log(userData.userName);
 
         response.Approved = true;
+        response.Position = SpawnPoint.GetRandomSpawnPos();
+        response.Rotation = quaternion.identity;
         response.CreatePlayerObject = true;
     }
 
@@ -63,5 +66,18 @@ public class NetworkServer : IDisposable
         {
             networkManager.Shutdown();
         }
+    }
+
+    public UserData GetUserDataByClientId(ulong clientId)
+    {
+        if (clientIdToAuth.TryGetValue(clientId,out string authId))
+        {
+            if (authIdToUserData.TryGetValue(authId,out UserData data))
+            {
+                return data;
+            }
+            return null;
+        }
+        return null;
     }
 }
