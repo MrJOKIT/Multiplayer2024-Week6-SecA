@@ -84,7 +84,7 @@ public class HostGameManager : IDisposable
         {
             userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Missing Name"),
             userAuthId = AuthenticationService.Instance.PlayerId,
-            userColorIndex = PlayerPrefs.GetInt(ColorSelector.PlayerColorKey,0)
+            userColorIndex = PlayerPrefs.GetInt(ColorSelector.PlayerMaterialKey,0)
         };
         string payload = JsonUtility.ToJson(userData);
         byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);

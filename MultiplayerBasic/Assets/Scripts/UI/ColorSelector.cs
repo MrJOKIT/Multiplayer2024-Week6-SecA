@@ -10,19 +10,19 @@ public struct SelectionButton
 {
     public Image colorButton;
     public GameObject selectionBox;
-    public Color color;
+    public Material material;
 }
 public class ColorSelector : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer[] playerSprites;
     [SerializeField] private SelectionButton[] selectionButtons;
-    [SerializeField] private int colorIndex = 0;
+    [SerializeField] private int materialIndex = 0;
 
-    public const string PlayerColorKey = "PlayerColorIndex";
+    public const string PlayerMaterialKey = "PlayerMaterialIndex";
 
     private void Start()
     {
-        colorIndex = PlayerPrefs.GetInt(PlayerColorKey, 0);
+        materialIndex = PlayerPrefs.GetInt(PlayerMaterialKey, 0);
         HandleColorChanged();
     }
 
@@ -35,27 +35,27 @@ public class ColorSelector : MonoBehaviour
 
         foreach (var sprite in playerSprites)
         {
-            sprite.color = selectionButtons[colorIndex].color;
+            sprite.material = selectionButtons[materialIndex].material;
         }
-        selectionButtons[colorIndex].selectionBox.SetActive(true);
+        selectionButtons[materialIndex].selectionBox.SetActive(true);
     }
 
-    public void SelectColor(int colorIndex)
+    public void SelectColor(int materialIndex)
     {
-        this.colorIndex = colorIndex;
+        this.materialIndex = materialIndex;
         HandleColorChanged();
     }
 
     public void SaveColor()
     {
-        PlayerPrefs.SetInt(PlayerColorKey,colorIndex);
+        PlayerPrefs.SetInt(PlayerMaterialKey,materialIndex);
     }
 
     private void OnValidate()
     {
         foreach (var selection in selectionButtons)
         {
-            selection.colorButton.color = selection.color;
+            selection.colorButton.material = selection.material;
         }
     }
 }

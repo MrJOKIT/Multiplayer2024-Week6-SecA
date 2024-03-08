@@ -15,14 +15,14 @@ public class RespawnHandler : NetworkBehaviour
             return;
         }
 
-        TankPlayer[] players = FindObjectsByType<TankPlayer>(FindObjectsSortMode.None);
+        /*TankPlayer[] players = FindObjectsByType<TankPlayer>(FindObjectsSortMode.None);
         foreach (TankPlayer player in players)
         {
             HandlePlayerSpawned(player);
         }
 
         TankPlayer.OnPlayerSpawned += HandlePlayerSpawned;
-        TankPlayer.OnPlayerDespawned += HandlePlayerDespawned;
+        TankPlayer.OnPlayerDespawned += HandlePlayerDespawned;*/
     }
 
     public override void OnNetworkDespawn()
@@ -32,11 +32,11 @@ public class RespawnHandler : NetworkBehaviour
             return;
         }
 
-        TankPlayer.OnPlayerSpawned -= HandlePlayerSpawned;
-        TankPlayer.OnPlayerDespawned -= HandlePlayerDespawned;
+        /*TankPlayer.OnPlayerSpawned -= HandlePlayerSpawned;
+        TankPlayer.OnPlayerDespawned -= HandlePlayerDespawned;*/
     }
 
-    private void HandlePlayerSpawned(TankPlayer player)
+    /*private void HandlePlayerSpawned(TankPlayer player)
     {
         player.Health.OnDie += (health) => HandlePlayerDie(player);
     } 
@@ -44,7 +44,7 @@ public class RespawnHandler : NetworkBehaviour
     private void HandlePlayerDespawned(TankPlayer player)
     {
         player.Health.OnDie -= (health) => HandlePlayerDie(player);
-    }
+    }*/
 
     private void HandlePlayerDie(TankPlayer player)
     {

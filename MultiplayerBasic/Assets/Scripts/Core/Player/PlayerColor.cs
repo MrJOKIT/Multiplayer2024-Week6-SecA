@@ -7,8 +7,8 @@ public class PlayerColor : MonoBehaviour
 {
     [SerializeField] private TankPlayer player;
     [SerializeField] private SpriteRenderer[] playerSprites;
-    [SerializeField] private Color[] tankColor;
-    [SerializeField] private int colorIndex;
+    [SerializeField] private Material[] tankMaterial;
+    [SerializeField] private int materialIndex;
 
     private void Start()
     {
@@ -17,10 +17,10 @@ public class PlayerColor : MonoBehaviour
 
     private void HandlePlayerColorChanged(int oldIndex, int newIndex)
     {
-        colorIndex = newIndex;
+        materialIndex = newIndex;
         foreach (var sprite in playerSprites)
         {
-            sprite.color = tankColor[colorIndex];
+            sprite.material = tankMaterial[materialIndex];
         }
     }
 
