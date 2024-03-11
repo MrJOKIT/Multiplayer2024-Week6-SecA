@@ -20,6 +20,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!IsOwner) { return; }
         inputReader.MoveEvent += HandleMove;
+        
     }
     public override void OnNetworkDespawn()
     {

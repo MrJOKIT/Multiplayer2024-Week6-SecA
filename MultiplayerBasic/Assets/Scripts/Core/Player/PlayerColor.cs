@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerColor : MonoBehaviour
 {
-    [SerializeField] private TankPlayer player;
+    [SerializeField] private KabigonPlayer player;
     [SerializeField] private SpriteRenderer[] playerSprites;
     [SerializeField] private Material[] tankMaterial;
     [SerializeField] private int materialIndex;

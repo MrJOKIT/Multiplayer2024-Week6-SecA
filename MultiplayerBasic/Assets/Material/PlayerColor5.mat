@@ -506,7 +506,7 @@ Material:
     - _CamouflageDistortionSpeed: {r: 0.1, g: 0.1, b: 0, a: 0}
     - _CamouflageNoiseScaleA: {r: 0.25, g: 0.25, b: 0, a: 0}
     - _CamouflageNoiseScaleB: {r: 0.25, g: 0.25, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 0, b: 0.913099, a: 1}
     - _ColorReplaceFromColor: {r: 0.003676507, g: 0.07818743, b: 0.06480328, a: 0}
     - _ColorReplaceToColor: {r: 1, g: 0, b: 0.913099, a: 1}
     - _CustomFadeNoiseScale: {r: 1, g: 1, b: 0, a: 0}

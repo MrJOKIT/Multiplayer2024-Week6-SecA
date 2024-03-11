@@ -2,27 +2,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using Com.LuisPedroFonseca.ProCamera2D;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class TankPlayer : NetworkBehaviour
+public class KabigonPlayer : NetworkBehaviour
 {
-    [Header("References")] [SerializeField]
-    private CinemachineVirtualCamera virtualCamera;
+    [Header("References")] 
+    //[SerializeField] private CinemachineVirtualCamera virtualCamera;
     //[field:SerializeField] public Health Health { get; private set; }
 
     [Header("Settings")] [SerializeField] 
     private int ownerPriority = 15;
 
+    public bool haveCam;
+
     public NetworkVariable<FixedString32Bytes> PlayerName = new NetworkVariable<FixedString32Bytes>();
     public NetworkVariable<int> PlayerColorIndex = new NetworkVariable<int>();
 
-    public static event Action<TankPlayer> OnPlayerSpawned;
-    public static event Action<TankPlayer> OnPlayerDespawned;
+    public static event Action<KabigonPlayer> OnPlayerSpawned;
+    public static event Action<KabigonPlayer> OnPlayerDespawned;
+
+    
 
     public override void OnNetworkSpawn()
     {
+        
         if (IsServer)
         {
             UserData userData = 
@@ -31,11 +37,13 @@ public class TankPlayer : NetworkBehaviour
             PlayerColorIndex.Value = userData.userColorIndex;
             
             OnPlayerSpawned?.Invoke(this);
+            
         }
         
         if (IsOwner)
         {
-            virtualCamera.Priority = ownerPriority;
+            //virtualCamera.Priority = ownerPriority;
+            
         }
     }
 
@@ -46,6 +54,17 @@ public class TankPlayer : NetworkBehaviour
             OnPlayerDespawned?.Invoke(this);
         }
     }
+
+    public void KabigonAddCamera()
+    {
+        if (!haveCam)
+        {
+            ProCamera2D.Instance.AddCameraTarget(transform);
+            haveCam = true;
+        }
+        
+    }
+    
 }
 
 

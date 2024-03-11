@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Com.LuisPedroFonseca.ProCamera2D;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -15,14 +16,15 @@ public class RespawnHandler : NetworkBehaviour
             return;
         }
 
-        /*TankPlayer[] players = FindObjectsByType<TankPlayer>(FindObjectsSortMode.None);
-        foreach (TankPlayer player in players)
+        KabigonPlayer[] players = FindObjectsByType<KabigonPlayer>(FindObjectsSortMode.None);
+        foreach (KabigonPlayer player in players)
         {
             HandlePlayerSpawned(player);
+            //ProCamera2D.Instance.AddCameraTarget(player.transform);
         }
 
-        TankPlayer.OnPlayerSpawned += HandlePlayerSpawned;
-        TankPlayer.OnPlayerDespawned += HandlePlayerDespawned;*/
+        KabigonPlayer.OnPlayerSpawned += HandlePlayerSpawned;
+        KabigonPlayer.OnPlayerDespawned += HandlePlayerDespawned;
     }
 
     public override void OnNetworkDespawn()
@@ -32,21 +34,23 @@ public class RespawnHandler : NetworkBehaviour
             return;
         }
 
-        /*TankPlayer.OnPlayerSpawned -= HandlePlayerSpawned;
-        TankPlayer.OnPlayerDespawned -= HandlePlayerDespawned;*/
+        KabigonPlayer.OnPlayerSpawned -= HandlePlayerSpawned;
+        KabigonPlayer.OnPlayerDespawned -= HandlePlayerDespawned;
     }
 
-    /*private void HandlePlayerSpawned(TankPlayer player)
+    private void HandlePlayerSpawned(KabigonPlayer player)
     {
-        player.Health.OnDie += (health) => HandlePlayerDie(player);
+        //player.Health.OnDie += (health) => HandlePlayerDie(player);
+        //ProCamera2D.Instance.AddCameraTarget(player.transform);
     } 
 
-    private void HandlePlayerDespawned(TankPlayer player)
+    private void HandlePlayerDespawned(KabigonPlayer player)
     {
-        player.Health.OnDie -= (health) => HandlePlayerDie(player);
-    }*/
+        //player.Health.OnDie -= (health) => HandlePlayerDie(player);
+        ProCamera2D.Instance.RemoveCameraTarget(player.transform);
+    }
 
-    private void HandlePlayerDie(TankPlayer player)
+    private void HandlePlayerDie(KabigonPlayer player)
     {
         Destroy(player.gameObject);
 
@@ -61,5 +65,7 @@ public class RespawnHandler : NetworkBehaviour
             playerPrefab, SpawnPoint.GetRandomSpawnPos(), Quaternion.identity);
         
         playerInstance.SpawnAsPlayerObject(ownerClientId);
+        //ProCamera2D.Instance.AddCameraTarget(playerInstance.transform);
+        
     }
 }
