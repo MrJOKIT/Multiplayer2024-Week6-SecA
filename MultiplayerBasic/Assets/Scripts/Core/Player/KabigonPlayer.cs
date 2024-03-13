@@ -14,7 +14,7 @@ public class KabigonPlayer : NetworkBehaviour
     //[field:SerializeField] public Health Health { get; private set; }
 
     [Header("Settings")] [SerializeField] 
-    private int ownerPriority = 15;
+    //private int ownerPriority = 15;
 
     public bool haveCam;
 
@@ -55,13 +55,14 @@ public class KabigonPlayer : NetworkBehaviour
         }
     }
 
-    public void KabigonAddCamera()
+    public void KabigonAdd()
     {
         if (!haveCam)
         {
             ProCamera2D.Instance.AddCameraTarget(transform);
             haveCam = true;
         }
+        
         
     }
     

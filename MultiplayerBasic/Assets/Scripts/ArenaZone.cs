@@ -9,11 +9,7 @@ public class ArenaZone : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            col.GetComponent<KabigonPlayer>().KabigonAddCamera();
-        }
-        
-        if (col.CompareTag("Player"))
-        {
+            col.GetComponent<KabigonPlayer>().KabigonAdd();
             col.GetComponent<PlayerHealth>().InArea();
         }
     }

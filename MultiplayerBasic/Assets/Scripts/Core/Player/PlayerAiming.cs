@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerAiming : NetworkBehaviour
 {
     [SerializeField] private InputReader inputReader;
-    [SerializeField] private Transform turretTransform;
+    [SerializeField] private Transform weaponTransform;
 
     private void LateUpdate()
     {
@@ -15,8 +15,8 @@ public class PlayerAiming : NetworkBehaviour
         Vector2 aimScreenPosition = inputReader.AimPosition;
         Vector2 aimWorldPosition = Camera.main.ScreenToWorldPoint(aimScreenPosition);
 
-        turretTransform.up = new Vector2(
-            aimWorldPosition.x - turretTransform.position.x,
-            aimWorldPosition.y - turretTransform.position.y);
+        weaponTransform.up = new Vector2(
+            aimWorldPosition.x - weaponTransform.position.x,
+            aimWorldPosition.y - weaponTransform.position.y);
     }
 }

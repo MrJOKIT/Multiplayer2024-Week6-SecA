@@ -20,7 +20,6 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!IsOwner) { return; }
         inputReader.MoveEvent += HandleMove;
-        
     }
     public override void OnNetworkDespawn()
     {
@@ -32,15 +31,17 @@ public class PlayerMovement : NetworkBehaviour
     {
         if(!IsOwner) { return ; }
 
-        float zRotation = previousMovementInput.x * -turningRate * Time.deltaTime;
-        bodyTransform.Rotate(0f,0f,zRotation);
+        //float zRotation = previousMovementInput.x * -turningRate * Time.deltaTime;
+        //bodyTransform.Rotate(0f,0f,zRotation);
     }
 
     private void FixedUpdate()
     {
         if (!IsOwner) { return ; }
 
-        rb.velocity = (Vector2)bodyTransform.up * previousMovementInput.y * movementSpeed;
+        Vector3 movement = new Vector3(previousMovementInput.x, previousMovementInput.y);
+
+        transform.position += movement * movementSpeed * Time.deltaTime;
     }
 
     private void HandleMove(Vector2 movementInput)
