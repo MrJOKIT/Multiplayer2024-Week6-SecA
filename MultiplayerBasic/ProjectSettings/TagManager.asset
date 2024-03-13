@@ -7,11 +7,12 @@ TagManager:
   - HitPointController
   - DeadArea
   - ArenaZone
+  - Dummy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Projectile
@@ -55,4 +56,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2210630125
+    locked: 0
+  - name: Effect
+    uniqueID: 3042136765
     locked: 0

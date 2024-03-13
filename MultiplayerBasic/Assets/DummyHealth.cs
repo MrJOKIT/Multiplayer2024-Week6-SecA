@@ -8,7 +8,7 @@ using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerHealth : NetworkBehaviour
+public class DummyHealth : NetworkBehaviour
 {
     [Header("Over Time")]
     public NetworkVariable<float> outAreaTime = new NetworkVariable<float>();
@@ -17,7 +17,7 @@ public class PlayerHealth : NetworkBehaviour
     public NetworkVariable<int> life = new NetworkVariable<int>();
     [field: SerializeField] public int maxLife = 2;
     [Header("Hit Percent")]
-    public NetworkVariable<float> hitPercent = new NetworkVariable<float>();
+    public NetworkVariable<float> hitPercent;
 
     [Header("Ref")] 
     public TMP_Text overText;
@@ -30,11 +30,14 @@ public class PlayerHealth : NetworkBehaviour
     private bool outOfAreaCheck;
     private bool firstInArea;
 
-    private PlayerKnockback playerKnockback;
+    private DummyKnockback dummyKnockback;
 
     private void Start()
     {
-        playerKnockback = GetComponent<PlayerKnockback>();
+        dummyKnockback = GetComponent<DummyKnockback>();
+        life.Value = maxLife;
+        outAreaTime.Value = maxOutAreaTime;
+        outAreaTimeCounter = maxOutAreaTime;
     }
 
     public override void OnNetworkSpawn()
@@ -100,6 +103,9 @@ public class PlayerHealth : NetworkBehaviour
         float calHitPercent = newPercent;
         calHitPercent = Mathf.Round(calHitPercent * 10f) * 0.1f;
         hitText.text = calHitPercent.ToString(CultureInfo.InvariantCulture);
+        
+
+        
     }
     
     private void HandleLifeChanged(int oldCount,int newCount)
@@ -126,13 +132,8 @@ public class PlayerHealth : NetworkBehaviour
 
     public void ReceiveDamage(float percent,Vector2 knockbackDirect)
     {
-        ModifyHealth(percent);
-        playerKnockback.Knockback(knockbackDirect);
-    }
-
-    private void ModifyHealth(float value)
-    { 
-        hitPercent.Value += value;
+        hitPercent.Value += percent;
+        dummyKnockback.Knockback(knockbackDirect);
     }
 
     public void PlayerDie()

@@ -15,12 +15,12 @@ public class PlayerAiming : NetworkBehaviour
 
         Vector2 aimScreenPosition = inputReader.AimPosition;
         Vector2 aimWorldPosition = Camera.main.ScreenToWorldPoint(aimScreenPosition);
-
+        
         headTransform.up = new Vector2(
             aimWorldPosition.x - headTransform.position.x,
             aimWorldPosition.y - headTransform.position.y);
 
-        if (aimWorldPosition.x > headTransform.position.x)
+        /*if (aimWorldPosition.x > headTransform.position.x)
         {
             headTransform.localScale = new Vector3(1,headTransform.localScale.y,headTransform.localScale.z);
             //headTransform.rotation = Quaternion.Euler(headTransform.rotation.x,0, headTransform.rotation.z);
@@ -29,6 +29,6 @@ public class PlayerAiming : NetworkBehaviour
         {
             headTransform.localScale = new Vector3(-1,headTransform.localScale.y,headTransform.localScale.z);
             //headTransform.rotation = Quaternion.Euler(headTransform.rotation.x, 180, headTransform.rotation.z);
-        }
+        }*/
     }
 }

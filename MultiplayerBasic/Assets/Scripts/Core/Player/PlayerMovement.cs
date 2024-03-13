@@ -12,7 +12,7 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Settings")]
     [SerializeField] private float movementSpeed = 4f;
-    [SerializeField] private float turningRate = 30f;
+    //[SerializeField] private float turningRate = 30f;
 
     private Vector2 previousMovementInput;
 

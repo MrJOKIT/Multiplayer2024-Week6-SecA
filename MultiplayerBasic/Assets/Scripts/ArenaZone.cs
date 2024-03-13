@@ -12,6 +12,10 @@ public class ArenaZone : MonoBehaviour
             col.GetComponent<KabigonPlayer>().KabigonAdd();
             col.GetComponent<PlayerHealth>().InArea();
         }
+        else if (col.CompareTag("Dummy"))
+        {
+            col.GetComponent<DummyHealth>().InArea();
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -24,6 +28,10 @@ public class ArenaZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<PlayerHealth>().OutOfArea();
+        }
+        else if (other.CompareTag("Dummy"))
+        {
+            other.GetComponent<DummyHealth>().OutOfArea();
         }
     }
 }
