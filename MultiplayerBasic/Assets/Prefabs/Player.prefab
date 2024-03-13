@@ -1335,6 +1335,9 @@ MonoBehaviour:
   overText: {fileID: 5908286819810446418}
   lifeText: {fileID: 5298660598371427683}
   hitText: {fileID: 5868630593467883394}
+  lowHp: {r: 0.63529414, g: 1, b: 0, a: 0}
+  mediumHp: {r: 0.92156863, g: 0.40392157, b: 0, a: 0}
+  highHp: {r: 0.63529414, g: 0, b: 0, a: 0}
 --- !u!70 &3183950546906386727
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

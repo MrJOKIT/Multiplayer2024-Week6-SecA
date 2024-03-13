@@ -82,7 +82,20 @@ public class PlayerHealth : NetworkBehaviour
         float hitPercent = newPercent;
         hitPercent = Mathf.Round(hitPercent * 10f) * 0.1f;
         hitText.text = hitPercent.ToString(CultureInfo.InvariantCulture);
-        hitText.color.g -= hitPercent;
+        if (hitPercent > 40)
+        {
+            hitText.color = mediumHp;
+        }
+        else if (hitPercent > 80)
+        {
+            hitText.color = highHp;
+        }
+        else
+        {
+            hitText.color = lowHp;
+        }
+
+        
     }
     
     private void HandleLifeChanged(int oldCount,int newCount)
