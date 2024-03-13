@@ -50,6 +50,19 @@ public class PlayerHealth : NetworkBehaviour
         OutOfAreaHandle();
         hitPercent.OnValueChanged += HandleHitPercentChanged;
         life.OnValueChanged += HandleLifeChanged;
+        
+        if (hitPercent.Value > 80)
+        {
+            hitText.color = highHp;
+        }
+        else if (hitPercent.Value > 40)
+        {
+            hitText.color = mediumHp;
+        }
+        else
+        {
+            hitText.color = lowHp;
+        }
     }
 
     private void OutOfAreaHandle()
@@ -79,21 +92,10 @@ public class PlayerHealth : NetworkBehaviour
     
     private void HandleHitPercentChanged(float oldPercent,float newPercent)
     {
-        float hitPercent = newPercent;
-        hitPercent = Mathf.Round(hitPercent * 10f) * 0.1f;
-        hitText.text = hitPercent.ToString(CultureInfo.InvariantCulture);
-        if (hitPercent > 40)
-        {
-            hitText.color = mediumHp;
-        }
-        else if (hitPercent > 80)
-        {
-            hitText.color = highHp;
-        }
-        else
-        {
-            hitText.color = lowHp;
-        }
+        float calHitPercent = newPercent;
+        calHitPercent = Mathf.Round(calHitPercent * 10f) * 0.1f;
+        hitText.text = calHitPercent.ToString(CultureInfo.InvariantCulture);
+        
 
         
     }
