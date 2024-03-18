@@ -10,6 +10,8 @@ public class TankPlayer : NetworkBehaviour
 {
     [Header("References")] [SerializeField]
     private CinemachineVirtualCamera virtualCamera;
+
+    [SerializeField] private Texture2D crossHair;
     [field:SerializeField] public Health Health { get; private set; }
 
     [Header("Settings")] [SerializeField] 
@@ -36,6 +38,8 @@ public class TankPlayer : NetworkBehaviour
         if (IsOwner)
         {
             virtualCamera.Priority = ownerPriority;
+
+            Cursor.SetCursor(crossHair, new Vector2(crossHair.width / 2, crossHair.height / 2), CursorMode.Auto);
         }
     }
 
