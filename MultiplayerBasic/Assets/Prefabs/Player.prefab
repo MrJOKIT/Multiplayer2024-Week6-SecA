@@ -1219,6 +1219,8 @@ GameObject:
   - component: {fileID: 5357680012291405666}
   - component: {fileID: 6990773231052344177}
   - component: {fileID: 1215974236348482747}
+  - component: {fileID: 147187250507042397}
+  - component: {fileID: 7824678999496713545}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1430,22 +1432,11 @@ MonoBehaviour:
   hitPercent:
     m_InternalValue: 0
   maxHitPercent: 500
-  rb: {fileID: 7243795923458792707}
+  playerKnockBack: {fileID: 7824678999496713545}
   overText: {fileID: 5908286819810446418}
-  lifeText: {fileID: 5298660598371427683}
-  hitText: {fileID: 5868630593467883394}
   lowHp: {r: 0.63529414, g: 1, b: 0, a: 1}
   mediumHp: {r: 0.92156863, g: 0.40392157, b: 0, a: 1}
   highHp: {r: 0.63529414, g: 0, b: 0, a: 1}
-  knockBackForce:
-    m_InternalValue: 10
-  maxKnockBackForce: 10
-  knockBackDuration:
-    m_InternalValue: 0.2
-  maxKnockBackDuration: 0.2
-  knockBackCooldown:
-    m_InternalValue: 0.5
-  maxKnockBackCooldown: 0.5
 --- !u!70 &3183950546906386727
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1530,3 +1521,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &147187250507042397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8923566233319816646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 606c57b074ad4584096e4fd523b8d9c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: {fileID: 8950848857208832658}
+  hitText: {fileID: 5868630593467883394}
+  lifeText: {fileID: 5298660598371427683}
+--- !u!114 &7824678999496713545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8923566233319816646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6822095cb98d5c841a9cf4e6907f9979, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBackForce:
+    m_InternalValue: 10
+  maxKnockBackForce: 10
+  knockBackDuration:
+    m_InternalValue: 0.2
+  maxKnockBackDuration: 0.2
+  knockBackCooldown:
+    m_InternalValue: 0.5
+  maxKnockBackCooldown: 0.5
+  rb: {fileID: 7243795923458792707}

@@ -10,13 +10,15 @@ public class ArenaZone : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             col.GetComponent<KabigonPlayer>().KabigonAdd();
-            col.GetComponent<PlayerHealth>().InArea();
         }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            other.GetComponent<PlayerHealth>().InArea();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)

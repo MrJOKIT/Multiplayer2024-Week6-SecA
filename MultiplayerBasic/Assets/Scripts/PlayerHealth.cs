@@ -11,133 +11,83 @@ using UnityEngine;
 public class PlayerHealth : NetworkBehaviour
 {
     [Header("Over Time")]
-    public NetworkVariable<float> outAreaTime = new NetworkVariable<float>();
+    public NetworkVariable<float> outAreaTime = new NetworkVariable<float>(3.5f);
     [field: SerializeField] public float maxOutAreaTime = 3.5f;
     [Header("Life")]
-    public NetworkVariable<int> life = new NetworkVariable<int>();
+    public NetworkVariable<int> life = new NetworkVariable<int>(2);
     [field: SerializeField] public int maxLife = 2;
     [Header("Hit Percent")]
-    public NetworkVariable<float> hitPercent = new NetworkVariable<float>();
+    public NetworkVariable<float> hitPercent = new NetworkVariable<float>(0);
     [field: SerializeField] public float maxHitPercent = 500;
 
     [Header("Ref")] 
-    public Rigidbody2D rb;
+    public PlayerKnockBack playerKnockBack;
     public TMP_Text overText;
-    public TMP_Text lifeText;
-    public TMP_Text hitText;
     public Color lowHp,mediumHp,highHp;
-    
-    [Header("KnockBack Setting")]
-    public NetworkVariable<float> knockBackForce = new NetworkVariable<float>(10f);
-    [field: SerializeField] public float maxKnockBackForce = 10f;
-    public NetworkVariable<float> knockBackDuration = new NetworkVariable<float>(0.2f);
-    [field: SerializeField] public float maxKnockBackDuration = 0.2f;
-    public NetworkVariable<float> knockBackCooldown = new NetworkVariable<float>(0.5f);
-    [field: SerializeField] public float maxKnockBackCooldown = 0.5f;
-    
-    private bool isKnockBack = false;
-    private float knockBackTimer = 0f;
-    private float knockBackCooldownTimer;
     
     [Header("Setting")]
     private float outAreaTimeCounter;
     private bool outOfAreaCheck;
     private bool firstInArea;
-    
+
+    public Action<PlayerHealth> OnDie;
+
     public override void OnNetworkSpawn()
     {
-        if (!IsServer)
+        if (!IsServer) { return; }
+        life.Value = maxLife;
+        outAreaTime.Value = maxOutAreaTime;
+        outAreaTimeCounter = outAreaTime.Value;
+        
+        if (!IsClient) { return; }
+        outAreaTime.OnValueChanged += HandleOutOfAreaChanged;
+        HandleOutOfAreaChanged(maxOutAreaTime,outAreaTime.Value);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        outAreaTime.OnValueChanged -= HandleOutOfAreaChanged;
+    }
+
+    private void LateUpdate()
+    {
+        if (!IsClient)
         {
             return;
         }
-        life.Value = maxLife;
-        outAreaTime.Value = maxOutAreaTime;
-        HandleHitPercentChanged(0,hitPercent.Value);
-        HandleLifeChanged(0,life.Value);
+        OutOfAreaHandle();
+        
     }
     
-    public override void OnNetworkDespawn()
-    {
-        hitPercent.OnValueChanged -= HandleHitPercentChanged;
-        life.OnValueChanged -= HandleLifeChanged;
-        //Destroy(gameObject);
-    }
-
-    private void Update()
-    {
-        OutOfAreaHandle();
-        hitPercent.OnValueChanged += HandleHitPercentChanged;
-        life.OnValueChanged += HandleLifeChanged;
-        if (hitPercent.Value > 80)
-        {
-            hitText.color = highHp;
-        }
-        else if (hitPercent.Value > 40)
-        {
-            hitText.color = mediumHp;
-        }
-        else
-        {
-            hitText.color = lowHp;
-        }
-        
-        if (!isKnockBack) return;
-        if (knockBackTimer <= 0)
-        {
-            isKnockBack = false;
-            rb.velocity = Vector2.zero;
-        }
-        else
-        {
-            knockBackTimer -= Time.deltaTime;
-        }
-    }
-    private void KnockBack(Vector2 direction)
-    {
-        if (isKnockBack) return;
-        isKnockBack = true;
-        knockBackTimer = knockBackDuration.Value; 
-        knockBackCooldownTimer = knockBackCooldown.Value;
-        rb.velocity = direction * knockBackForce.Value ;
-    }
 
     private void OutOfAreaHandle()
     {
         if (outOfAreaCheck)
         {
-            outAreaTimeCounter -= Time.deltaTime;
-            if (outAreaTimeCounter < 0)
+            outAreaTime.Value -= Time.deltaTime;
+            if (outAreaTime.Value <= 0)
             {
-                PlayerDie();
-                outAreaTimeCounter = outAreaTime.Value;
+                OnDie?.Invoke(this);
                 outOfAreaCheck = false;
             }
-            else if (outAreaTimeCounter < 1)
-            {
-                float overCount = outAreaTimeCounter;
-                overCount = Mathf.Round(overCount * 10f) * 0.1f;
-                overText.text = overCount.ToString();
-            }
-            else if (outAreaTimeCounter < outAreaTime.Value)
-            {
-                int overCount = (int)Math.Floor(outAreaTimeCounter);
-                overText.text = overCount.ToString();
-            }
         }
+        
     }
-    
-    private void HandleHitPercentChanged(float oldPercent,float newPercent)
+    private void HandleOutOfAreaChanged(float oldPercent,float newOutArea)
     {
-        float calHitPercent = newPercent;
-        calHitPercent = Mathf.Round(calHitPercent * 10f) * 0.1f;
-        hitText.text = calHitPercent.ToString(CultureInfo.InvariantCulture);
-    }
-    
-    private void HandleLifeChanged(int oldCount,int newCount)
-    {
-        lifeText.text = "LIFE: " + newCount;
-    }
+        float overCount = newOutArea;
+        if (outAreaTime.Value < 1)
+        {
+            overCount = Mathf.Round(overCount * 10f) * 0.1f;
+            overText.text = overCount.ToString();
+        }
+        else if (outAreaTime.Value < maxOutAreaTime)
+        {
+            overCount = (int)Math.Floor(overCount);
+            overText.text = overCount.ToString();
+        }
 
+    }
     public void OutOfArea()
     {
         outOfAreaCheck = true;
@@ -146,14 +96,14 @@ public class PlayerHealth : NetworkBehaviour
     public void InArea()
     {
         outOfAreaCheck = false;
-        outAreaTimeCounter = outAreaTime.Value;
+        outAreaTime.Value = maxOutAreaTime;
         overText.text = string.Empty;
     }
 
     public void ReceiveDamage(float percent,Vector2 direction)
     {
         ModifyHealth(percent);
-        KnockBack(direction);
+        playerKnockBack.ActiveKnockBack(direction);
     }
 
     private void ModifyHealth(float value)
