@@ -18,36 +18,49 @@ public class PlayerHealth : NetworkBehaviour
     [field: SerializeField] public int maxLife = 2;
     [Header("Hit Percent")]
     public NetworkVariable<float> hitPercent = new NetworkVariable<float>();
+    [field: SerializeField] public float maxHitPercent = 500;
 
     [Header("Ref")] 
+    public Rigidbody2D rb;
     public TMP_Text overText;
     public TMP_Text lifeText;
     public TMP_Text hitText;
     public Color lowHp,mediumHp,highHp;
     
+    [Header("KnockBack Setting")]
+    public NetworkVariable<float> knockBackForce = new NetworkVariable<float>(10f);
+    [field: SerializeField] public float maxKnockBackForce = 10f;
+    public NetworkVariable<float> knockBackDuration = new NetworkVariable<float>(0.2f);
+    [field: SerializeField] public float maxKnockBackDuration = 0.2f;
+    public NetworkVariable<float> knockBackCooldown = new NetworkVariable<float>(0.5f);
+    [field: SerializeField] public float maxKnockBackCooldown = 0.5f;
+    
+    private bool isKnockBack = false;
+    private float knockBackTimer = 0f;
+    private float knockBackCooldownTimer;
+    
     [Header("Setting")]
     private float outAreaTimeCounter;
     private bool outOfAreaCheck;
     private bool firstInArea;
-
-    private PlayerKnockback playerKnockback;
-
-    private void Start()
-    {
-        playerKnockback = GetComponent<PlayerKnockback>();
-    }
-
+    
     public override void OnNetworkSpawn()
     {
-        life.Value = maxLife;
-        outAreaTime.Value = maxOutAreaTime;
-        HandleHitPercentChanged(0,hitPercent.Value);
-
-        if (!IsOwner)
+        if (!IsServer)
         {
             return;
         }
+        life.Value = maxLife;
+        outAreaTime.Value = maxOutAreaTime;
+        HandleHitPercentChanged(0,hitPercent.Value);
         HandleLifeChanged(0,life.Value);
+    }
+    
+    public override void OnNetworkDespawn()
+    {
+        hitPercent.OnValueChanged -= HandleHitPercentChanged;
+        life.OnValueChanged -= HandleLifeChanged;
+        //Destroy(gameObject);
     }
 
     private void Update()
@@ -55,7 +68,6 @@ public class PlayerHealth : NetworkBehaviour
         OutOfAreaHandle();
         hitPercent.OnValueChanged += HandleHitPercentChanged;
         life.OnValueChanged += HandleLifeChanged;
-        
         if (hitPercent.Value > 80)
         {
             hitText.color = highHp;
@@ -68,6 +80,25 @@ public class PlayerHealth : NetworkBehaviour
         {
             hitText.color = lowHp;
         }
+        
+        if (!isKnockBack) return;
+        if (knockBackTimer <= 0)
+        {
+            isKnockBack = false;
+            rb.velocity = Vector2.zero;
+        }
+        else
+        {
+            knockBackTimer -= Time.deltaTime;
+        }
+    }
+    private void KnockBack(Vector2 direction)
+    {
+        if (isKnockBack) return;
+        isKnockBack = true;
+        knockBackTimer = knockBackDuration.Value; 
+        knockBackCooldownTimer = knockBackCooldown.Value;
+        rb.velocity = direction * knockBackForce.Value ;
     }
 
     private void OutOfAreaHandle()
@@ -106,11 +137,6 @@ public class PlayerHealth : NetworkBehaviour
     {
         lifeText.text = "LIFE: " + newCount;
     }
-    
-    /*private void HandleOverTimeChanged(float oldTime,float newTime)
-    {
-        overText.text = newTime.ToString(CultureInfo.InvariantCulture);
-    }*/
 
     public void OutOfArea()
     {
@@ -124,15 +150,20 @@ public class PlayerHealth : NetworkBehaviour
         overText.text = string.Empty;
     }
 
-    public void ReceiveDamage(float percent,Vector2 knockbackDirect)
+    public void ReceiveDamage(float percent,Vector2 direction)
     {
         ModifyHealth(percent);
-        playerKnockback.Knockback(knockbackDirect);
+        KnockBack(direction);
     }
 
     private void ModifyHealth(float value)
-    { 
-        hitPercent.Value += value;
+    {
+        float newHitPoint = hitPercent.Value + value;
+        if (newHitPoint >= maxHitPercent)
+        {
+            newHitPoint = 0;
+        }
+        hitPercent.Value = Mathf.Clamp(newHitPoint, 0, maxHitPercent);
     }
 
     public void PlayerDie()

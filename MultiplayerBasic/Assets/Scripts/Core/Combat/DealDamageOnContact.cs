@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DealDamageOnContact : MonoBehaviour
 {
-    [SerializeField] private int damage = 5;
+    [SerializeField] private float damage = 20;
 
     private ulong ownerClientId;
     public void SetOwner(ulong ownerClientId)
@@ -25,9 +25,10 @@ public class DealDamageOnContact : MonoBehaviour
             }
         }
 
-        if(col.attachedRigidbody.TryGetComponent<Health>(out Health health))
+        if(col.attachedRigidbody.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
         {
-            health.TakeDamage(damage);
+            Vector2 knockBackDirection = (col.transform.position - transform.position).normalized;
+            playerHealth.ReceiveDamage(damage,knockBackDirection);
         }
     }
 }

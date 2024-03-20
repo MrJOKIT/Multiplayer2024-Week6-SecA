@@ -1213,13 +1213,12 @@ GameObject:
   - component: {fileID: 7243795923458792707}
   - component: {fileID: 5946369560411557510}
   - component: {fileID: 16061690541212568}
-  - component: {fileID: 7683119678685513210}
   - component: {fileID: 2211205401227627868}
   - component: {fileID: 8950848857208832658}
   - component: {fileID: 3183950546906386727}
   - component: {fileID: 5357680012291405666}
   - component: {fileID: 6990773231052344177}
-  - component: {fileID: 8134199236050697536}
+  - component: {fileID: 1215974236348482747}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1360,18 +1359,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 2b9a2dc912815c24a8209bc25655131f, type: 2}
   - {fileID: 2100000, guid: fa252fb8732136a448ab1bad6b300344, type: 2}
   materialIndex: 0
---- !u!114 &7683119678685513210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8923566233319816646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2211205401227627868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1435,19 +1422,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outAreaTime:
-    m_InternalValue: 0
+    m_InternalValue: 3.5
   maxOutAreaTime: 3.5
   life:
-    m_InternalValue: 0
+    m_InternalValue: 2
   maxLife: 2
   hitPercent:
     m_InternalValue: 0
+  maxHitPercent: 500
+  rb: {fileID: 7243795923458792707}
   overText: {fileID: 5908286819810446418}
   lifeText: {fileID: 5298660598371427683}
   hitText: {fileID: 5868630593467883394}
   lowHp: {r: 0.63529414, g: 1, b: 0, a: 1}
   mediumHp: {r: 0.92156863, g: 0.40392157, b: 0, a: 1}
   highHp: {r: 0.63529414, g: 0, b: 0, a: 1}
+  knockBackForce:
+    m_InternalValue: 10
+  maxKnockBackForce: 10
+  knockBackDuration:
+    m_InternalValue: 0.2
+  maxKnockBackDuration: 0.2
+  knockBackCooldown:
+    m_InternalValue: 0.5
+  maxKnockBackCooldown: 0.5
 --- !u!70 &3183950546906386727
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1513,14 +1511,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSkill:
   - skillName: Slash
-    vfxAttack: {fileID: 3148555543621124722, guid: 9de0e8b34a5c0bb49a5fb4763f74a627, type: 3}
+    vfxServerAttack: {fileID: 7972773259770563236, guid: 7cd1ba599fa66984fa639fa774e577b6, type: 3}
+    vfxClientAttack: {fileID: 1595477309495990227, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
   delayAttack: 0.75
   inputReader: {fileID: 11400000, guid: 51a3317d8c0a7a04baf56ce2fa5bd727, type: 2}
-  attackPoint: {fileID: 799417519604362331}
   sfxSpawn: {fileID: 5604597702179316977}
   attackRadius: 0.45
   playerCollider: {fileID: 3183950546906386727}
---- !u!114 &8134199236050697536
+--- !u!114 &1215974236348482747
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1529,9 +1527,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8923566233319816646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ce1ebdbd5c938341b8bcac0ca0e2a87, type: 3}
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 10
-  knockbackDuration: 0.2
-  knockbackCooldown: 0.5

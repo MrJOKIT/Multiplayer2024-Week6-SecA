@@ -123,8 +123,8 @@ TextureImporter:
         y: 0
         width: 64
         height: 64
-      alignment: 5
-      pivot: {x: 1, y: 0.5}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -220,6 +220,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Slash_sprite_effects_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 320
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b9e94a6613141c449135743bc773500
+      internalID: -787862479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -236,6 +257,7 @@ TextureImporter:
       Slash_sprite_effects_2: -752422831
       Slash_sprite_effects_3: 422533022
       Slash_sprite_effects_4: -2052920804
+      Slash_sprite_effects_5: -787862479
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
