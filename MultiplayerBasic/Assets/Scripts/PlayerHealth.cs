@@ -33,17 +33,21 @@ public class PlayerHealth : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsServer) { return; }
-        life.Value = maxLife;
-        outAreaTime.Value = maxOutAreaTime;
+        if (!IsClient)
+        {
+            return;
+        }
 
-        if (!IsClient) { return; }
         outAreaTime.OnValueChanged += HandleOutOfAreaChanged;
         HandleOutOfAreaChanged(maxOutAreaTime,outAreaTime.Value);
     }
 
     public override void OnNetworkDespawn()
     {
+        if (!IsClient)
+        {
+            return;
+        }
         outAreaTime.OnValueChanged -= HandleOutOfAreaChanged;
     }
 
@@ -69,6 +73,11 @@ public class PlayerHealth : NetworkBehaviour
                 outOfAreaCheck = false;
             }
         }
+        else
+        {
+            outAreaTime.Value = Mathf.Clamp(maxOutAreaTime, 0, maxOutAreaTime);
+            overText.text = string.Empty;
+        }
         
     }
     private void HandleOutOfAreaChanged(float oldPercent,float newOutArea)
@@ -77,12 +86,12 @@ public class PlayerHealth : NetworkBehaviour
         if (outAreaTime.Value < 1)
         {
             overCount = Mathf.Round(overCount * 10f) * 0.1f;
-            overText.text = overCount.ToString();
+            overText.text = overCount.ToString(CultureInfo.CurrentCulture);
         }
         else if (outAreaTime.Value < maxOutAreaTime)
         {
             overCount = (int)Math.Floor(overCount);
-            overText.text = overCount.ToString();
+            overText.text = overCount.ToString(CultureInfo.CurrentCulture);
         }
 
     }
@@ -94,14 +103,13 @@ public class PlayerHealth : NetworkBehaviour
     public void InArea()
     {
         outOfAreaCheck = false;
-        outAreaTime.Value = maxOutAreaTime;
-        overText.text = string.Empty;
+        
     }
 
     public void ReceiveDamage(float percent,Vector2 direction)
     {
         ModifyHealth(percent);
-        playerKnockBack.ActiveKnockBack(direction);
+        //playerKnockBack.ActiveKnockBack(direction);
     }
 
     private void ModifyHealth(float value)
