@@ -26,7 +26,6 @@ public class PlayerHealth : NetworkBehaviour
     public Color lowHp,mediumHp,highHp;
     
     [Header("Setting")]
-    private float outAreaTimeCounter;
     private bool outOfAreaCheck;
     private bool firstInArea;
 
@@ -37,8 +36,7 @@ public class PlayerHealth : NetworkBehaviour
         if (!IsServer) { return; }
         life.Value = maxLife;
         outAreaTime.Value = maxOutAreaTime;
-        outAreaTimeCounter = outAreaTime.Value;
-        
+
         if (!IsClient) { return; }
         outAreaTime.OnValueChanged += HandleOutOfAreaChanged;
         HandleOutOfAreaChanged(maxOutAreaTime,outAreaTime.Value);
