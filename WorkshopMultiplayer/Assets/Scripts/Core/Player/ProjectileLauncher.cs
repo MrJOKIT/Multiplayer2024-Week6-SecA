@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ProjectileLauncher : NetworkBehaviour
 {
@@ -19,6 +20,8 @@ public class ProjectileLauncher : NetworkBehaviour
     [SerializeField] private float fireRate;
     [SerializeField] private float muzzleFlashDuration;
     [SerializeField] private int costToFire;
+
+    private bool isPointerOverUI;
     private bool shouldFire;
     private float timer;
     private float muzzleFlashTimer;
@@ -49,6 +52,7 @@ public class ProjectileLauncher : NetworkBehaviour
 
         if(!IsOwner) { return; }
 
+        isPointerOverUI = EventSystem.current.IsPointerOverGameObject();
         if (timer>0)
         {
             timer -= Time.deltaTime;
@@ -68,6 +72,13 @@ public class ProjectileLauncher : NetworkBehaviour
 
     private void HandlePrimaryFire(bool shouldFire)
     {
+        if (shouldFire)
+        {
+            if (isPointerOverUI)
+            {
+                return;
+            }
+        }
         this.shouldFire = shouldFire;
     }
 

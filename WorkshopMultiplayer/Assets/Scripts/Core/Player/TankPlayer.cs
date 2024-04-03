@@ -8,14 +8,18 @@ using UnityEngine;
 
 public class TankPlayer : NetworkBehaviour
 {
-    [Header("References")] [SerializeField]
-    private CinemachineVirtualCamera virtualCamera;
+    [Header("References")] 
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private SpriteRenderer minimapIconRenderer;
 
     [SerializeField] private Texture2D crossHair;
     [field:SerializeField] public Health Health { get; private set; }
+    [field:SerializeField] public CoinWallet Wallet { get; private set; }
 
-    [Header("Settings")] [SerializeField] 
-    private int ownerPriority = 15;
+    [Header("Settings")] 
+    [SerializeField] private int ownerPriority = 15;
+
+    [SerializeField] private Color ownerColorOnMap;
 
     public NetworkVariable<FixedString32Bytes> PlayerName = new NetworkVariable<FixedString32Bytes>();
     public NetworkVariable<int> PlayerColorIndex = new NetworkVariable<int>();
@@ -39,6 +43,8 @@ public class TankPlayer : NetworkBehaviour
         {
             virtualCamera.Priority = ownerPriority;
 
+            minimapIconRenderer.color = ownerColorOnMap;
+            
             Cursor.SetCursor(crossHair, new Vector2(crossHair.width / 2, crossHair.height / 2), CursorMode.Auto);
         }
     }
