@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -21,6 +22,8 @@ public class ScoreManager : NetworkBehaviour
     [Header("Player Two")]
     public NetworkVariable<int> scorePlayerTwo;
     public List<GameObject> scoreImagePlayerTwo;
+    [Header("Gameplay")] 
+    public GameObject victoryCanvas;
     
     private FixedString32Bytes playerName;
     private ulong ClientId { get; set; }
@@ -81,6 +84,7 @@ public class ScoreManager : NetworkBehaviour
             case 3: scoreImagePlayerOne[0].SetActive(true);
                     scoreImagePlayerOne[1].SetActive(true);
                     scoreImagePlayerOne[2].SetActive(true);
+                    Victory();
                     break;
         }
         
@@ -101,6 +105,7 @@ public class ScoreManager : NetworkBehaviour
             case 3: scoreImagePlayerTwo[0].SetActive(true);
                     scoreImagePlayerTwo[1].SetActive(true);
                     scoreImagePlayerTwo[2].SetActive(true);
+                    Victory();
                     break;
         }
     }
@@ -109,11 +114,11 @@ public class ScoreManager : NetworkBehaviour
     {
         if(scorePlayerOne.Value >= 3)
         {
-            
+            victoryCanvas.SetActive(true);
         }
         else if (scorePlayerTwo.Value >= 3)
         {
-            
+            victoryCanvas.SetActive(true);
         }
     }
     

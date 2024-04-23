@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3756322510708484061, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
       propertyPath: m_Name
-      value: ServerSlashVFX
+      value: ServerBulletOne
       objectReference: {fileID: 0}
     - target: {fileID: 3876713202463744292, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
       propertyPath: m_Controller
@@ -88,7 +88,8 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8383647661893184097, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
     m_RemovedGameObjects:
     - {fileID: 1281625467624466798, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
     m_AddedGameObjects: []

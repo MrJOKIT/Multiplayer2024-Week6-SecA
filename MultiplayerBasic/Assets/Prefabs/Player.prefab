@@ -62,7 +62,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7759437083968618340}
-  - {fileID: 454733033896068570}
   m_Father: {fileID: 5391588333895522255}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2589409684983323964
@@ -494,7 +493,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7759437083968618340
 Transform:
   m_ObjectHideFlags: 0
@@ -784,6 +783,7 @@ GameObject:
   m_Component:
   - component: {fileID: 454733033896068570}
   - component: {fileID: 60681953150207402}
+  - component: {fileID: 5375311597265365272}
   m_Layer: 0
   m_Name: Skim
   m_TagString: Untagged
@@ -799,12 +799,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4970632928713636914}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4619924848210966156}
+  m_Father: {fileID: 5391588333895522255}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &60681953150207402
 SpriteRenderer:
@@ -846,7 +846,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 67
   m_Sprite: {fileID: 1001583790, guid: 96d0df04f55650b469a17e526008c96c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -858,6 +858,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &5375311597265365272
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4970632928713636914}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8f3e7aa7b8836d941974f72469fe544a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5131608596815977494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1325,6 +1347,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 454733033896068570}
   - {fileID: 4619924848210966156}
   - {fileID: 9004884797151321671}
   - {fileID: 7772068195186976258}
@@ -1585,8 +1608,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletTypes:
   - bulletName: Basic
-    vfxServerAttack: {fileID: 7972773259770563236, guid: 7cd1ba599fa66984fa639fa774e577b6, type: 3}
-    vfxClientAttack: {fileID: 1595477309495990227, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
+    serverAttack: {fileID: 7972773259770563236, guid: 7cd1ba599fa66984fa639fa774e577b6, type: 3}
+    clientAttack: {fileID: 1595477309495990227, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
+  - bulletName: Speed
+    serverAttack: {fileID: 3368024797352641430, guid: 3ce5a845deeb23a4c9d83b826e0edcb6, type: 3}
+    clientAttack: {fileID: 8139095166822675200, guid: 3eda63ef9434e514cb63e11a197fbd1e, type: 3}
   delayAttack: 0.75
   inputReader: {fileID: 11400000, guid: 51a3317d8c0a7a04baf56ce2fa5bd727, type: 2}
   sfxSpawn: {fileID: 5604597702179316977}

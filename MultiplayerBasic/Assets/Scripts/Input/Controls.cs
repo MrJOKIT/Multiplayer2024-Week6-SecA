@@ -53,6 +53,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ChangeBullet"",
+                    ""type"": ""Button"",
+                    ""id"": ""6b29684f-238f-4aa5-8ea2-3ce77cc07606"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -198,6 +207,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fb28ecb9-430f-4097-9995-f08d37524036"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""ChangeBullet"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -226,6 +246,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_PrimaryFire = m_Player.FindAction("Primary Fire", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
+        m_Player_ChangeBullet = m_Player.FindAction("ChangeBullet", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -290,6 +311,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_PrimaryFire;
     private readonly InputAction m_Player_Aim;
+    private readonly InputAction m_Player_ChangeBullet;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -297,6 +319,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @PrimaryFire => m_Wrapper.m_Player_PrimaryFire;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
+        public InputAction @ChangeBullet => m_Wrapper.m_Player_ChangeBullet;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -315,6 +338,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
+            @ChangeBullet.started += instance.OnChangeBullet;
+            @ChangeBullet.performed += instance.OnChangeBullet;
+            @ChangeBullet.canceled += instance.OnChangeBullet;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -328,6 +354,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
+            @ChangeBullet.started -= instance.OnChangeBullet;
+            @ChangeBullet.performed -= instance.OnChangeBullet;
+            @ChangeBullet.canceled -= instance.OnChangeBullet;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -359,5 +388,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnPrimaryFire(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+        void OnChangeBullet(InputAction.CallbackContext context);
     }
 }

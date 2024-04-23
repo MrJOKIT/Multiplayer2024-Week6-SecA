@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5637046490291073078}
   - component: {fileID: 1563210999147261773}
   - component: {fileID: 4985907363735898969}
+  - component: {fileID: 7978030508695429234}
   m_Layer: 6
   m_Name: BaseAttackVFX
   m_TagString: Untagged
@@ -43,7 +44,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3372694953376181710}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -186,3 +187,15 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &7978030508695429234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3372694953376181710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3093f502cd465d4da0b58a7bd88d447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
