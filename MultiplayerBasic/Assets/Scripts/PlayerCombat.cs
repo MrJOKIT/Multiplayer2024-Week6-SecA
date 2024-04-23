@@ -5,15 +5,15 @@ using Unity.Netcode;
 using UnityEngine;
 
 [Serializable]
-public class Skill
+public class BulletType
 {
-    public string skillName;
+    public string bulletName;
     public Transform vfxServerAttack;
     public Transform vfxClientAttack;
 }
 public class PlayerCombat : NetworkBehaviour
 {
-    [SerializeField] private Skill[] playerSkill;
+    [SerializeField] private BulletType[] bulletTypes;
     [SerializeField] private float delayAttack;
     [SerializeField] private InputReader inputReader;
     [SerializeField] private Transform sfxSpawn;
@@ -22,7 +22,7 @@ public class PlayerCombat : NetworkBehaviour
     private float timer;
     private bool onAttack;
     private bool inDelayAttack;
-
+    private NetworkVariable<int> bulletTypeNumber = new NetworkVariable<int>(0);
     private float delayAttackTimeCounter;
 
 
@@ -33,6 +33,7 @@ public class PlayerCombat : NetworkBehaviour
             return;
         }
         inputReader.PrimaryFireEvent += Attack;
+        bulletTypeNumber.OnValueChanged += HandleChangeBulletType;
     }
 
     public override void OnNetworkDespawn()
@@ -42,6 +43,7 @@ public class PlayerCombat : NetworkBehaviour
             return;
         }
         inputReader.PrimaryFireEvent -= Attack;
+        bulletTypeNumber.OnValueChanged -= HandleChangeBulletType;
     }
 
     private void Attack(bool onAttack)
@@ -70,6 +72,11 @@ public class PlayerCombat : NetworkBehaviour
 
         timer = delayAttack;
     }
+
+    private void HandleChangeBulletType(int oldType, int newType)
+    {
+        
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -79,7 +86,7 @@ public class PlayerCombat : NetworkBehaviour
     [ServerRpc]
     private void PrimaryAttackServerRpc()
     {
-        Transform damageItem = Instantiate(playerSkill[0].vfxServerAttack, sfxSpawn.position, sfxSpawn.rotation, sfxSpawn.parent);
+        Transform damageItem = Instantiate(bulletTypes[bulletTypeNumber.Value].vfxServerAttack, sfxSpawn.position, sfxSpawn.rotation);
         Physics2D.IgnoreCollision(playerCollider,damageItem.GetComponent<Collider2D>());
         if(damageItem.TryGetComponent<DealDamageOnContact>(out DealDamageOnContact dealDamage))
         {
@@ -98,7 +105,7 @@ public class PlayerCombat : NetworkBehaviour
     }
     private void ClientAttack()
     {
-        Transform damageItem = Instantiate(playerSkill[0].vfxClientAttack, sfxSpawn.position, sfxSpawn.rotation, sfxSpawn.parent);
+        Transform damageItem = Instantiate(bulletTypes[bulletTypeNumber.Value].vfxClientAttack, sfxSpawn.position, sfxSpawn.rotation);
         Physics2D.IgnoreCollision(playerCollider,damageItem.GetComponent<Collider2D>());
     }
 }

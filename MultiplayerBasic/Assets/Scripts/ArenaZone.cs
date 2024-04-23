@@ -10,7 +10,10 @@ public class ArenaZone : NetworkBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            col.GetComponent<KabigonPlayer>().KabigonAdd();
+            if (col.GetComponent<KabigonPlayer>().OwnerClientId == OwnerClientId)
+            {
+                col.GetComponent<KabigonPlayer>().KabigonAdd();
+            }
         }
     }
 

@@ -22,12 +22,11 @@ public class PlayerHealth : NetworkBehaviour
 
     [Header("Ref")] 
     public KabigonPlayer kabigonPlayer;
-    public PlayerKnockBack playerKnockBack;
     public TMP_Text overText;
     public Color lowHp,mediumHp,highHp;
     
     [Header("Setting")]
-    private bool outOfAreaCheck;
+    public NetworkVariable<bool> outOfAreaCheck = new NetworkVariable<bool>(false);
     private bool firstInArea;
     private ulong clinetId;
 
@@ -46,6 +45,7 @@ public class PlayerHealth : NetworkBehaviour
         }
 
         outAreaTime.OnValueChanged += HandleOutOfAreaChanged;
+        outOfAreaCheck.OnValueChanged += OutOfAreaHandle;
         HandleOutOfAreaChanged(maxOutAreaTime,outAreaTime.Value);
     }
 
@@ -56,6 +56,7 @@ public class PlayerHealth : NetworkBehaviour
             return;
         }
         outAreaTime.OnValueChanged -= HandleOutOfAreaChanged;
+        outOfAreaCheck.OnValueChanged -= OutOfAreaHandle;
     }
 
     private void LateUpdate()
@@ -64,14 +65,13 @@ public class PlayerHealth : NetworkBehaviour
         {
             return;
         }
-        OutOfAreaHandle();
-        
+        OutOfAreaHandle(false,outOfAreaCheck.Value);
     }
     
 
-    private void OutOfAreaHandle()
+    private void OutOfAreaHandle(bool oldCheck,bool newCheck)
     {
-        if (outOfAreaCheck)
+        if (outOfAreaCheck.Value)
         {
             outAreaTime.Value -= Time.deltaTime;
             if (outAreaTime.Value <= 0)
@@ -104,19 +104,18 @@ public class PlayerHealth : NetworkBehaviour
     }
     public void OutOfArea()
     {
-        outOfAreaCheck = true;
+        outOfAreaCheck.Value = true;
     }
 
     public void InArea()
     {
-        outOfAreaCheck = false;
+        outOfAreaCheck.Value = false;
         
     }
 
-    public void ReceiveDamage(float percent,Vector2 direction)
+    public void ReceiveDamage(float percent)
     {
         ModifyHealth(percent);
-        //playerKnockBack.ActiveKnockBack(direction);
     }
 
     private void ModifyHealth(float value)

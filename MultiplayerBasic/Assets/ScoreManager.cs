@@ -104,5 +104,17 @@ public class ScoreManager : NetworkBehaviour
                     break;
         }
     }
+
+    private void Victory()
+    {
+        if(scorePlayerOne.Value >= 3)
+        {
+            
+        }
+        else if (scorePlayerTwo.Value >= 3)
+        {
+            
+        }
+    }
     
 }

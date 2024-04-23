@@ -71,7 +71,7 @@ public class RespawnHandler : NetworkBehaviour
             playerPrefab, SpawnPoint.GetRandomSpawnPos(), Quaternion.identity);
         
         playerInstance.SpawnAsPlayerObject(ownerClientId);
-        //ProCamera2D.Instance.AddCameraTarget(playerInstance.transform);
+        //ProCamera2D.Instance.AddCameraTarget(player.transform);
         
     }
 }

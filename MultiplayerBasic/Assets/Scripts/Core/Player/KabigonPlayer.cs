@@ -39,12 +39,12 @@ public class KabigonPlayer : NetworkBehaviour
             OnPlayerSpawned?.Invoke(this);
             
         }
-        
-        if (IsOwner)
+
+        /*if (!IsClient)
         {
-            //virtualCamera.Priority = ownerPriority;
-            
+            return;
         }
+        ProCamera2D.Instance.AddCameraTarget(transform);*/
     }
 
     public override void OnNetworkDespawn()

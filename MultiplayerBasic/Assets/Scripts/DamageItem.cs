@@ -6,14 +6,14 @@ using UnityEngine;
 
 public class DamageItem : MonoBehaviour
 {
-    [SerializeField] private Collider2D hitBox;
-    
-    public void ActiveDamage()
+    [SerializeField] private float speed;
+    [SerializeField] private Rigidbody2D rb;
+    private void Update()
     {
-        hitBox.enabled = true;
+        rb.velocity = transform.up * speed;
     }
 
-    public void DestroySelf()
+    private void OnBecameInvisible()
     {
         Destroy(gameObject);
     }

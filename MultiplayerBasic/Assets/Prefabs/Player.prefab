@@ -957,13 +957,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5700139327227800107}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7759437083968618340}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6838893874728230713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1305,7 +1305,6 @@ GameObject:
   - component: {fileID: 6990773231052344177}
   - component: {fileID: 1215974236348482747}
   - component: {fileID: 147187250507042397}
-  - component: {fileID: 7824678999496713545}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1515,11 +1514,12 @@ MonoBehaviour:
     m_InternalValue: 0
   maxHitPercent: 500
   kabigonPlayer: {fileID: 2211205401227627868}
-  playerKnockBack: {fileID: 7824678999496713545}
   overText: {fileID: 5908286819810446418}
   lowHp: {r: 0.63529414, g: 1, b: 0, a: 1}
   mediumHp: {r: 0.92156863, g: 0.40392157, b: 0, a: 1}
   highHp: {r: 0.63529414, g: 0, b: 0, a: 1}
+  outOfAreaCheck:
+    m_InternalValue: 0
 --- !u!70 &3183950546906386727
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1583,8 +1583,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2c339ea31bffbd43bbc88cd6d7a6772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill:
-  - skillName: Slash
+  bulletTypes:
+  - bulletName: Basic
     vfxServerAttack: {fileID: 7972773259770563236, guid: 7cd1ba599fa66984fa639fa774e577b6, type: 3}
     vfxClientAttack: {fileID: 1595477309495990227, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
   delayAttack: 0.75
@@ -1619,25 +1619,3 @@ MonoBehaviour:
   playerHealth: {fileID: 8950848857208832658}
   hitText: {fileID: 5868630593467883394}
   lifeText: {fileID: 5298660598371427683}
---- !u!114 &7824678999496713545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8923566233319816646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6822095cb98d5c841a9cf4e6907f9979, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knockBackForce:
-    m_InternalValue: 10
-  maxKnockBackForce: 10
-  knockBackDuration:
-    m_InternalValue: 0.2
-  maxKnockBackDuration: 0.2
-  knockBackCooldown:
-    m_InternalValue: 0.5
-  maxKnockBackCooldown: 0.5
-  rb: {fileID: 7243795923458792707}

@@ -15,7 +15,7 @@ public class DealDamageOnContact : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        /*if(col.attachedRigidbody == null) {  return; }
+        if(col.attachedRigidbody == null) {  return; }
 
         if(col.attachedRigidbody.TryGetComponent<NetworkObject>(out NetworkObject netObj))
         {
@@ -23,12 +23,12 @@ public class DealDamageOnContact : MonoBehaviour
             {
                 return;
             }
-        }*/
+        }
 
         if(col.attachedRigidbody.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
         {
             Vector2 knockBackDirection = (col.transform.position - transform.position).normalized;
-            playerHealth.ReceiveDamage(damage,knockBackDirection);
+            playerHealth.ReceiveDamage(damage);
         }
     }
 }
