@@ -28,7 +28,7 @@ public class PlayerKnockBack : NetworkBehaviour
     {
         if(!IsOwner) { return; }
     }
-    private void FixedUpdate()
+    private void Update()
     {
         if (!IsOwner)
         {

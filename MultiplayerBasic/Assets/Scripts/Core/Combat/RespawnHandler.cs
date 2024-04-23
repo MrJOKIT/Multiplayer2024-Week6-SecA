@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Com.LuisPedroFonseca.ProCamera2D;
@@ -8,6 +9,12 @@ public class RespawnHandler : NetworkBehaviour
 {
     
     [SerializeField] private NetworkObject playerPrefab;
+    public static RespawnHandler instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -20,11 +27,11 @@ public class RespawnHandler : NetworkBehaviour
         foreach (KabigonPlayer player in players)
         {
             HandlePlayerSpawned(player);
-            //ProCamera2D.Instance.AddCameraTarget(player.transform);
+            ProCamera2D.Instance.AddCameraTarget(player.transform);
         }
 
-        KabigonPlayer.OnPlayerSpawned += HandlePlayerSpawned;
-        KabigonPlayer.OnPlayerDespawned += HandlePlayerDespawned;
+        //KabigonPlayer.OnPlayerSpawned += HandlePlayerSpawned;
+        //KabigonPlayer.OnPlayerDespawned += HandlePlayerDespawned;
     }
 
     public override void OnNetworkDespawn()
@@ -34,26 +41,25 @@ public class RespawnHandler : NetworkBehaviour
             return;
         }
 
-        KabigonPlayer.OnPlayerSpawned -= HandlePlayerSpawned;
-        KabigonPlayer.OnPlayerDespawned -= HandlePlayerDespawned;
+        //KabigonPlayer.OnPlayerSpawned -= HandlePlayerSpawned;
+        //KabigonPlayer.OnPlayerDespawned -= HandlePlayerDespawned;
     }
 
-    private void HandlePlayerSpawned(KabigonPlayer player)
+    public void HandlePlayerSpawned(KabigonPlayer player)
     {
-        //player.Health.OnDie += (health) => HandlePlayerDie(player);
-        //ProCamera2D.Instance.AddCameraTarget(player.transform);
+        //HandlePlayerDie();
+        ProCamera2D.Instance.AddCameraTarget(player.transform);
     } 
 
-    private void HandlePlayerDespawned(KabigonPlayer player)
+    public void HandlePlayerDespawned(KabigonPlayer playerObject)
     {
-        //player.Health.OnDie -= (health) => HandlePlayerDie(player);
-        ProCamera2D.Instance.RemoveCameraTarget(player.transform);
+        Destroy(playerObject.gameObject);
+        HandlePlayerDie(playerObject);
+        //ProCamera2D.Instance.RemoveCameraTarget(player.transform);
     }
 
     private void HandlePlayerDie(KabigonPlayer player)
     {
-        Destroy(player.gameObject);
-
         StartCoroutine(RespawnPlayer(player.OwnerClientId));
     }
 

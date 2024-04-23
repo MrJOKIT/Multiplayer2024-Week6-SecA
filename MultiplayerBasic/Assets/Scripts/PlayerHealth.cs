@@ -12,15 +12,16 @@ public class PlayerHealth : NetworkBehaviour
 {
     [Header("Over Time")]
     public NetworkVariable<float> outAreaTime = new NetworkVariable<float>(3.5f);
-    [field: SerializeField] public float maxOutAreaTime = 3.5f;
-    [Header("Life")]
+    [SerializeField] public float maxOutAreaTime = 3.5f;
+    /*[Header("Life")]
     public NetworkVariable<int> life = new NetworkVariable<int>(2);
-    [field: SerializeField] public int maxLife = 2;
+    [field: SerializeField] public int maxLife = 2;*/
     [Header("Hit Percent")]
     public NetworkVariable<float> hitPercent = new NetworkVariable<float>(0);
-    [field: SerializeField] public float maxHitPercent = 500;
+    [SerializeField] public float maxHitPercent = 500;
 
     [Header("Ref")] 
+    public KabigonPlayer kabigonPlayer;
     public PlayerKnockBack playerKnockBack;
     public TMP_Text overText;
     public Color lowHp,mediumHp,highHp;
@@ -28,8 +29,14 @@ public class PlayerHealth : NetworkBehaviour
     [Header("Setting")]
     private bool outOfAreaCheck;
     private bool firstInArea;
+    private ulong clinetId;
 
     public Action<PlayerHealth> OnDie;
+
+    private void Start()
+    {
+        clinetId = OwnerClientId;
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -70,7 +77,7 @@ public class PlayerHealth : NetworkBehaviour
             if (outAreaTime.Value <= 0)
             {
                 OnDie?.Invoke(this);
-                outOfAreaCheck = false;
+                PlayerDie();
             }
         }
         else
@@ -124,7 +131,8 @@ public class PlayerHealth : NetworkBehaviour
 
     public void PlayerDie()
     {
+        ScoreManager.instance.Initialized(clinetId);
         ProCamera2D.Instance.RemoveCameraTarget(transform);
-        Destroy(gameObject);
+        RespawnHandler.instance.HandlePlayerDespawned(kabigonPlayer);
     }
 }

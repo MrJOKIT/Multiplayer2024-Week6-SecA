@@ -16,15 +16,15 @@ public class PlayerHUD : NetworkBehaviour
         
         playerHealth.hitPercent.OnValueChanged += HandleHitPercentChanged;
         HandleHitPercentChanged(0,playerHealth.hitPercent.Value);
-        playerHealth.life.OnValueChanged += HandleLifeChanged;
-        HandleLifeChanged(0,playerHealth.life.Value);
+       // playerHealth.life.OnValueChanged += HandleLifeChanged;
+       // HandleLifeChanged(0,playerHealth.life.Value);
     }
     
     public override void OnNetworkDespawn()
     {
         if (!IsClient) { return; }
         playerHealth.hitPercent.OnValueChanged -= HandleHitPercentChanged;
-        playerHealth.life.OnValueChanged -= HandleLifeChanged;
+        //playerHealth.life.OnValueChanged -= HandleLifeChanged;
         
     }
 

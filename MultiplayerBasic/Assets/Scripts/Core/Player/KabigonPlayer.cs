@@ -62,8 +62,6 @@ public class KabigonPlayer : NetworkBehaviour
             ProCamera2D.Instance.AddCameraTarget(transform);
             haveCam = true;
         }
-        
-        
     }
     
 }
