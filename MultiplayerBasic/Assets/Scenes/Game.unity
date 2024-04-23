@@ -2034,9 +2034,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 506444999}
-  - {fileID: 404067833}
   - {fileID: 134036433}
+  - {fileID: 404067833}
+  - {fileID: 506444999}
   m_Father: {fileID: 1977997895}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2115,12 +2115,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f197921af01d2d4eadb5c43a31c3f1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scorePlayerOne: 0
+  scorePlayerOne:
+    m_InternalValue: 0
   scoreImagePlayerOne:
   - {fileID: 2134226811}
   - {fileID: 1380957812}
   - {fileID: 1015161231}
-  scorePlayerTwo: 0
+  scorePlayerTwo:
+    m_InternalValue: 0
   scoreImagePlayerTwo:
   - {fileID: 1356437414}
   - {fileID: 863229058}
