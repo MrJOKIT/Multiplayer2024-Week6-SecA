@@ -9,11 +9,13 @@ using UnityEngine;
 
 public class KabigonPlayer : NetworkBehaviour
 {
-    [Header("References")] 
+    [Header("References")]
     //[SerializeField] private CinemachineVirtualCamera virtualCamera;
     //[field:SerializeField] public Health Health { get; private set; }
 
-    [Header("Settings")] [SerializeField] 
+    [Header("Settings")]
+    [SerializeField]
+    private Texture2D crossHair;
     //private int ownerPriority = 15;
 
     public bool haveCam;
@@ -40,11 +42,11 @@ public class KabigonPlayer : NetworkBehaviour
             
         }
 
-        /*if (!IsClient)
+        if (IsOwner)
         {
-            return;
+            Cursor.SetCursor(crossHair,new Vector2(crossHair.width/2,crossHair.height/2),CursorMode.Auto);
         }
-        ProCamera2D.Instance.AddCameraTarget(transform);*/
+        
     }
 
     public override void OnNetworkDespawn()

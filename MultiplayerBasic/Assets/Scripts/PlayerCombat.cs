@@ -22,7 +22,7 @@ public class PlayerCombat : NetworkBehaviour
     private float timer;
     private bool onAttack;
     private bool inDelayAttack;
-    private NetworkVariable<int> bulletTypeNumber = new NetworkVariable<int>(0);
+    public NetworkVariable<int> bulletTypeNumber = new NetworkVariable<int>(0);
     private float delayAttackTimeCounter;
 
 
@@ -60,11 +60,12 @@ public class PlayerCombat : NetworkBehaviour
         {
             return;
         }
+        
         if (timer>0)
         {
             timer -= Time.deltaTime;
         }
-
+        
         if (!onAttack)
         {
             return;
@@ -78,16 +79,17 @@ public class PlayerCombat : NetworkBehaviour
 
     private void ChangeBullet(bool onChange)
     {
-        bulletTypeNumber.Value += 1;
-        Debug.Log(bulletTypeNumber.Value);
+        ChangeTypeServerRpc();
     }
 
+    private void IncreaseType(int count)
+    {
+        var newCount = bulletTypeNumber.Value + count;
+
+        bulletTypeNumber.Value = newCount;
+    }
     private void HandleChangeBulletType(int oldType, int newType)
     {
-        if (bulletTypeNumber.Value > bulletTypes.Length - 1 )
-        {
-            bulletTypeNumber.Value = 0;
-        }
     }
     private void OnDrawGizmos()
     {
@@ -105,6 +107,16 @@ public class PlayerCombat : NetworkBehaviour
             dealDamage.SetOwner(OwnerClientId);
         }
         SpawnClientAttackClientRpc();
+    }
+
+    [ServerRpc]
+    private void ChangeTypeServerRpc()
+    {
+        bulletTypeNumber.Value += 1;
+        if (bulletTypeNumber.Value > bulletTypes.Length - 1 )
+        {
+            bulletTypeNumber.Value = 0;
+        }
     }
     [ClientRpc]
     private void SpawnClientAttackClientRpc()

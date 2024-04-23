@@ -13,7 +13,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ADDCOLORCONTRASTTOGGLE_ON
-  - _ENABLECOLORREPLACE_ON
   - _ENABLEINNEROUTLINE_ON
   - _SHADERFADING_NONE
   - _SHADERSPACE_UV
@@ -202,7 +201,7 @@ Material:
     - _EnableBurn: 0
     - _EnableCamouflage: 0
     - _EnableCheckerboard: 0
-    - _EnableColorReplace: 1
+    - _EnableColorReplace: 0
     - _EnableContrast: 0
     - _EnableCustomFade: 0
     - _EnableDirectionalAlphaFade: 0
@@ -319,7 +318,7 @@ Material:
     - _InnerOutlineFade: 1
     - _InnerOutlineOutlineOnlyToggle: 0
     - _InnerOutlineTextureToggle: 0
-    - _InnerOutlineWidth: 0.11
+    - _InnerOutlineWidth: 0.02
     - _MetalContrast: 2
     - _MetalFade: 1
     - _MetalHighlightContrast: 2
@@ -507,7 +506,7 @@ Material:
     - _CamouflageDistortionSpeed: {r: 0.1, g: 0.1, b: 0, a: 0}
     - _CamouflageNoiseScaleA: {r: 0.25, g: 0.25, b: 0, a: 0}
     - _CamouflageNoiseScaleB: {r: 0.25, g: 0.25, b: 0, a: 0}
-    - _Color: {r: 1, g: 0, b: 0.913099, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorReplaceFromColor: {r: 0.003676507, g: 0.07818743, b: 0.06480328, a: 0}
     - _ColorReplaceToColor: {r: 1, g: 0, b: 0.913099, a: 1}
     - _CustomFadeNoiseScale: {r: 1, g: 1, b: 0, a: 0}
@@ -552,7 +551,7 @@ Material:
     - _InkSpreadColor: {r: 8.47419, g: 5.013525, b: 0.08873497, a: 0}
     - _InkSpreadNoiseScale: {r: 0.4, g: 0.4, b: 0, a: 0}
     - _InkSpreadPosition: {r: 0.5, g: -1, b: 0, a: 0}
-    - _InnerOutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _InnerOutlineColor: {r: 1, g: 0, b: 0.913099, a: 1}
     - _InnerOutlineDistortionIntensity: {r: 0.01, g: 0.01, b: 0, a: 0}
     - _InnerOutlineNoiseScale: {r: 4, g: 4, b: 0, a: 0}
     - _InnerOutlineNoiseSpeed: {r: 0, g: 0.1, b: 0, a: 0}

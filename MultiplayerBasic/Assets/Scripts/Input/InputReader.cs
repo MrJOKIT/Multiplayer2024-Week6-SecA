@@ -56,6 +56,10 @@ public class InputReader : ScriptableObject, IPlayerActions
         {
             ChangeBulletEvent?.Invoke(true);
         }
+        else if (context.canceled)
+        {
+            PrimaryFireEvent?.Invoke(false);
+        }
         
     }
 }

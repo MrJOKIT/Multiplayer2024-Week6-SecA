@@ -1460,7 +1460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2211205401227627868}
   playerSprites:
-  - {fileID: 8792310826080634201}
+  - {fileID: 60681953150207402}
   tankMaterial:
   - {fileID: 2100000, guid: b3eae991e1e0fed4a96aa07cff9cb6c8, type: 2}
   - {fileID: 2100000, guid: 5ae4fffb707e0724f9cdc2a19b149930, type: 2}
@@ -1480,6 +1480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b62a321541888418e88976b75784cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crossHair: {fileID: 2800000, guid: ed6174cfc03074afa9523d9500a2c7c0, type: 3}
   haveCam: 0
   PlayerName:
     m_InternalValue:
