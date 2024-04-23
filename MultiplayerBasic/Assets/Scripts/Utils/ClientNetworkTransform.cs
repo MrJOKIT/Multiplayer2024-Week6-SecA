@@ -11,21 +11,15 @@ public class ClientNetworkTransform : NetworkTransform
         CanCommitToTransform = IsOwner;
     }
 
-    protected override void Update()
-    {
-        CanCommitToTransform = IsOwner;
-        base.Update();
-        if(NetworkManager != null)
-        {
-            if(NetworkManager.IsConnectedClient || NetworkManager.IsListening)
-            {
-                if (CanCommitToTransform)
-                {
-                    TryCommitTransformToServer(transform, NetworkManager.LocalTime.Time);
-                }
-            }
-        }
-    }
+   override protected void Update()
+   {
+       CanCommitToTransform = IsOwner;
+       base.Update();
+       if (!IsHost && NetworkManager != null && NetworkManager.IsConnectedClient && CanCommitToTransform)
+       {
+           TryCommitTransformToServer(transform, NetworkManager.LocalTime.Time);
+       }
+   }
 
     protected override bool OnIsServerAuthoritative()
     {
