@@ -96,6 +96,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClientProjectile
       objectReference: {fileID: 0}
+    - target: {fileID: 4854399561067461637, guid: 2b080cde367fa5a4f9bc891b0d4fc152, type: 3}
+      propertyPath: m_TagString
+      value: Bullet
+      objectReference: {fileID: 0}
     - target: {fileID: 5021215198977972773, guid: 2b080cde367fa5a4f9bc891b0d4fc152, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

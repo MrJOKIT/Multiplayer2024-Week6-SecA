@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using Com.LuisPedroFonseca.ProCamera2D;
 using TMPro;
-using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -13,9 +11,7 @@ public class PlayerHealth : NetworkBehaviour
     [Header("Over Time")]
     public NetworkVariable<float> outAreaTime = new NetworkVariable<float>(3.5f);
     [SerializeField] public float maxOutAreaTime = 3.5f;
-    /*[Header("Life")]
-    public NetworkVariable<int> life = new NetworkVariable<int>(2);
-    [field: SerializeField] public int maxLife = 2;*/
+    
     [Header("Hit Percent")]
     public NetworkVariable<float> hitPercent = new NetworkVariable<float>(0);
     [SerializeField] public float maxHitPercent = 500;
@@ -23,18 +19,18 @@ public class PlayerHealth : NetworkBehaviour
     [Header("Ref")] 
     public KabigonPlayer kabigonPlayer;
     public TMP_Text overText;
-    public Color lowHp,mediumHp,highHp;
+    public Color lowHp, mediumHp, highHp;
     
     [Header("Setting")]
     public NetworkVariable<bool> outOfAreaCheck = new NetworkVariable<bool>(false);
-    private bool firstInArea;
-    private ulong clinetId;
 
+    private ulong clientId;
+    
     public Action<PlayerHealth> OnDie;
 
     private void Start()
     {
-        clinetId = OwnerClientId;
+        clientId = OwnerClientId;
     }
 
     public override void OnNetworkSpawn()
@@ -68,7 +64,6 @@ public class PlayerHealth : NetworkBehaviour
         OutOfAreaHandle(false,outOfAreaCheck.Value);
     }
     
-
     private void OutOfAreaHandle(bool oldCheck,bool newCheck)
     {
         if (outOfAreaCheck.Value)
@@ -85,8 +80,8 @@ public class PlayerHealth : NetworkBehaviour
             outAreaTime.Value = Mathf.Clamp(maxOutAreaTime, 0, maxOutAreaTime);
             overText.text = string.Empty;
         }
-        
     }
+
     private void HandleOutOfAreaChanged(float oldPercent,float newOutArea)
     {
         float overCount = newOutArea;
@@ -97,11 +92,11 @@ public class PlayerHealth : NetworkBehaviour
         }
         else if (outAreaTime.Value < maxOutAreaTime)
         {
-            overCount = (int)Math.Floor(overCount);
+            overCount = (int)Mathf.Floor(overCount);
             overText.text = overCount.ToString(CultureInfo.CurrentCulture);
         }
-
     }
+
     public void OutOfArea()
     {
         outOfAreaCheck.Value = true;
@@ -110,7 +105,6 @@ public class PlayerHealth : NetworkBehaviour
     public void InArea()
     {
         outOfAreaCheck.Value = false;
-        
     }
 
     public void ReceiveDamage(float percent)
@@ -130,8 +124,29 @@ public class PlayerHealth : NetworkBehaviour
 
     public void PlayerDie()
     {
-        ScoreManager.instance.Initialized(clinetId);
+        ScoreManager.instance.Initialized(clientId);
         ProCamera2D.Instance.RemoveCameraTarget(transform);
         RespawnHandler.instance.HandlePlayerDespawned(kabigonPlayer);
+    }
+
+   
+    [ClientRpc]
+    public void ApplyKnockBackClientRpc(Vector2 knockBackDirection)
+    {
+       
+        float knockBackMagnitude = hitPercent.Value * 0.7f; 
+
+        Rigidbody2D playerRigidbody = GetComponent<Rigidbody2D>();
+        if (playerRigidbody != null)
+        {
+            playerRigidbody.AddForce(knockBackDirection.normalized * knockBackMagnitude, ForceMode2D.Impulse); 
+            StartCoroutine(StopKnockBack(playerRigidbody));
+        }
+    }
+
+    private IEnumerator StopKnockBack(Rigidbody2D rb)
+    {
+        yield return new WaitForSeconds(0.1f); // ระยะเวลา
+        rb.velocity = Vector2.zero;
     }
 }
