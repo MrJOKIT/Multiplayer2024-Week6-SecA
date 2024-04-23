@@ -16,10 +16,10 @@ public class ScoreManager : NetworkBehaviour
 {
     public static ScoreManager instance;
     [Header("Player One")]
-    public int scorePlayerOne;
+    public NetworkVariable<int> scorePlayerOne;
     public List<GameObject> scoreImagePlayerOne;
     [Header("Player Two")]
-    public int scorePlayerTwo;
+    public NetworkVariable<int> scorePlayerTwo;
     public List<GameObject> scoreImagePlayerTwo;
     
     private FixedString32Bytes playerName;
@@ -28,30 +28,43 @@ public class ScoreManager : NetworkBehaviour
     private void Awake()
     {
         instance = this;
-        UpdateScore();
     }
-    
+
+    public override void OnNetworkSpawn()
+    {
+        if(!IsClient) { return; }
+
+        scorePlayerOne.OnValueChanged += HandleUpdateScore;
+        scorePlayerTwo.OnValueChanged += HandleUpdateScore;
+        HandleUpdateScore(0,scorePlayerOne.Value);
+        HandleUpdateScore(0,scorePlayerTwo.Value);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if(!IsClient) { return; }
+        scorePlayerOne.OnValueChanged -= HandleUpdateScore;
+        scorePlayerTwo.OnValueChanged -= HandleUpdateScore;
+    }
+
     public void Initialized(ulong clientId) //, FixedString32Bytes playerName
     {
         ClientId = clientId;
         if (ClientId == 0)
         {
-            scorePlayerTwo += 1;
+            scorePlayerTwo.Value += 1;
             
         }
         else if (ClientId == 1)
         {
-            scorePlayerOne += 1;
+            scorePlayerOne.Value += 1;
             
         }
-
-        UpdateScore();
-
     }
     
-    private void UpdateScore()
+    private void HandleUpdateScore(int oldScore,int newScore)
     {
-        switch (scorePlayerOne)
+        switch (scorePlayerOne.Value)
         {
             case 0: scoreImagePlayerOne[0].SetActive(false);
                     scoreImagePlayerOne[1].SetActive(false);
@@ -71,7 +84,7 @@ public class ScoreManager : NetworkBehaviour
                     break;
         }
         
-        switch (scorePlayerTwo)
+        switch (scorePlayerTwo.Value)
         {
             case 0: scoreImagePlayerTwo[0].SetActive(false);
                     scoreImagePlayerTwo[1].SetActive(false);
