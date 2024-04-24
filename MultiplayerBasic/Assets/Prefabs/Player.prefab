@@ -1446,6 +1446,9 @@ MonoBehaviour:
   bodyTransform: {fileID: 7759437083968618340}
   rb: {fileID: 7243795923458792707}
   movementSpeed: 5
+  delayDash: 2
+  dashDistance: 5
+  dashDuration: 0.2
 --- !u!114 &16061690541212568
 MonoBehaviour:
   m_ObjectHideFlags: 0

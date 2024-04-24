@@ -42,11 +42,11 @@ public class KabigonPlayer : NetworkBehaviour
             
         }
 
-        if (IsOwner)
+        if (!IsOwner)
         {
-            
-            Cursor.SetCursor(crossHair,new Vector2(crossHair.width/2,crossHair.height/2),CursorMode.Auto);
+            return;
         }
+        Cursor.SetCursor(crossHair,new Vector2(crossHair.width/2,crossHair.height/2),CursorMode.Auto);
         
     }
 
@@ -62,7 +62,7 @@ public class KabigonPlayer : NetworkBehaviour
     {
         if (!haveCam)
         {
-            ProCamera2D.Instance.AddCameraTarget(transform);
+            
             haveCam = true;
         }
     }

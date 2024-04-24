@@ -62,6 +62,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""2e437851-a457-42c4-86db-279899451895"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -69,17 +78,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""b91ce329-3385-4d34-bb96-31f5493eb69b"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Primary Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0ba5c010-dd5a-4224-8799-8ace8b88e350"",
-                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
@@ -218,6 +216,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""ChangeBullet"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""495acb59-033b-4e99-a2ef-722027393197"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -247,6 +256,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_PrimaryFire = m_Player.FindAction("Primary Fire", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_ChangeBullet = m_Player.FindAction("ChangeBullet", throwIfNotFound: true);
+        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -312,6 +322,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_PrimaryFire;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_ChangeBullet;
+    private readonly InputAction m_Player_Dash;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -320,6 +331,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @PrimaryFire => m_Wrapper.m_Player_PrimaryFire;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @ChangeBullet => m_Wrapper.m_Player_ChangeBullet;
+        public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -341,6 +353,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ChangeBullet.started += instance.OnChangeBullet;
             @ChangeBullet.performed += instance.OnChangeBullet;
             @ChangeBullet.canceled += instance.OnChangeBullet;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -357,6 +372,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ChangeBullet.started -= instance.OnChangeBullet;
             @ChangeBullet.performed -= instance.OnChangeBullet;
             @ChangeBullet.canceled -= instance.OnChangeBullet;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -389,5 +407,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnPrimaryFire(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnChangeBullet(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
 }

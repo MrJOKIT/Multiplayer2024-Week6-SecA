@@ -27,7 +27,7 @@ public class RespawnHandler : NetworkBehaviour
         foreach (KabigonPlayer player in players)
         {
             HandlePlayerSpawned(player);
-            ProCamera2D.Instance.AddCameraTarget(player.transform);
+            //ProCamera2D.Instance.AddCameraTarget(player.transform);
         }
 
         //KabigonPlayer.OnPlayerSpawned += HandlePlayerSpawned;
@@ -48,7 +48,7 @@ public class RespawnHandler : NetworkBehaviour
     public void HandlePlayerSpawned(KabigonPlayer player)
     {
         //HandlePlayerDie();
-        ProCamera2D.Instance.AddCameraTarget(player.transform);
+        //ProCamera2D.Instance.AddCameraTarget(player.transform);
     } 
 
     public void HandlePlayerDespawned(KabigonPlayer playerObject)

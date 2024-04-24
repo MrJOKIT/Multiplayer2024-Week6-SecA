@@ -39,6 +39,7 @@ public class ScoreManager : NetworkBehaviour
     {
         if(!IsClient) { return; }
 
+        instance = this;
         scorePlayerOne.OnValueChanged += HandleUpdateScore;
         scorePlayerTwo.OnValueChanged += HandleUpdateScore;
         HandleUpdateScore(0,scorePlayerOne.Value);
@@ -131,6 +132,37 @@ public class ScoreManager : NetworkBehaviour
 
     private void Victory()
     {
+        VictoryServerRpc();
+        VictoryShow();
+    }
+    [ServerRpc]
+    private void VictoryServerRpc()
+    {
+        if(scorePlayerOne.Value >= 3)
+        {
+            victoryCanvas.SetActive(true);
+            playNameWinText.text = playerNameOne + " WIN";
+        }
+        else if (scorePlayerTwo.Value >= 3)
+        {
+            victoryCanvas.SetActive(true);
+            playNameWinText.text = playerNameTwo + " WIN";
+        }
+        
+        VictoryClientRpc();
+    }
+    [ClientRpc]
+    private void VictoryClientRpc()
+    {
+        if (IsOwner)
+        {
+            return;
+        }
+        VictoryShow();
+    }
+
+    private void VictoryShow()
+    {
         if(scorePlayerOne.Value >= 3)
         {
             victoryCanvas.SetActive(true);
@@ -144,19 +176,42 @@ public class ScoreManager : NetworkBehaviour
     }
 
     
-    [ClientRpc]
-    public void PlayAgainClientRpc()
+    
+    public void PlayAgain()
+    {
+        PlayAgainServerRpc();
+        ClientPlayAgain();
+    }
+
+    [ServerRpc]
+    private void PlayAgainServerRpc()
     {
         victoryCanvas.SetActive(false);
         scorePlayerOne.Value = 0;
         scorePlayerTwo.Value = 0;
         
+        PlayAgainClientRpc();
+    }
+    [ClientRpc]
+    private void PlayAgainClientRpc()
+    {
+        if (IsOwner)
+        {
+            return;
+        }
+
         ClientPlayAgain();
     }
 
     private void ClientPlayAgain()
     {
         victoryCanvas.SetActive(false);
+        scoreImagePlayerOne[0].SetActive(false);
+        scoreImagePlayerOne[1].SetActive(false);
+        scoreImagePlayerOne[2].SetActive(false);
+        scoreImagePlayerTwo[0].SetActive(false);
+        scoreImagePlayerTwo[1].SetActive(false);
+        scoreImagePlayerTwo[2].SetActive(false);
     }
     
 }

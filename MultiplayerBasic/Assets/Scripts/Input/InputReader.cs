@@ -10,9 +10,9 @@ public class InputReader : ScriptableObject, IPlayerActions
 {
     public event Action<Vector2> MoveEvent;
     public event Action<bool> PrimaryFireEvent;
-
+    public event Action<bool> PrimaryDashEvent;
     public event Action<bool> ChangeBulletEvent;
-    public event Action<bool> NextBulletEvent;
+    
 
     public Vector2 AimPosition { get; private set; }
 
@@ -61,5 +61,17 @@ public class InputReader : ScriptableObject, IPlayerActions
             PrimaryFireEvent?.Invoke(false);
         }
         
+    }
+
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            PrimaryDashEvent?.Invoke(true);
+        }
+        else if (context.canceled)
+        {
+            PrimaryDashEvent?.Invoke(false);
+        }
     }
 }

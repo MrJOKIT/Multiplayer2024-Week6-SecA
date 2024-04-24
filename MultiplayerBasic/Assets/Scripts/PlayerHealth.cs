@@ -28,6 +28,7 @@ public class PlayerHealth : NetworkBehaviour
     [Header("Setting")]
     public NetworkVariable<bool> outOfAreaCheck = new NetworkVariable<bool>(false);
     private bool firstInArea;
+    private bool oneShot = false;
     private ulong clinetId;
 
     public Action<PlayerHealth> OnDie;
@@ -93,13 +94,18 @@ public class PlayerHealth : NetworkBehaviour
     public void OutOfArea()
     {
         outOfAreaCheck.Value = true;
-        ScoreManager.instance.InitializeName(OwnerClientId);
+        
     }
 
     public void InArea()
     {
         outOfAreaCheck.Value = false;
-        
+        if (!oneShot)
+        {
+            ProCamera2D.Instance.AddCameraTarget(transform);
+            ScoreManager.instance.InitializeName(OwnerClientId);
+            oneShot = true;
+        }
     }
 
     public void ReceiveDamage(float percent)
@@ -123,6 +129,7 @@ public class PlayerHealth : NetworkBehaviour
         ScoreManager.instance.Initialized(clinetId);
         ProCamera2D.Instance.RemoveCameraTarget(transform);
         RespawnHandler.instance.HandlePlayerDespawned(kabigonPlayer);
+        oneShot = false;
     }
     
     [ClientRpc]
