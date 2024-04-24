@@ -9,6 +9,7 @@ public class PlayerNameDisplay : MonoBehaviour
 {
     [SerializeField] private KabigonPlayer player;
     [SerializeField] private TMP_Text playerNameText;
+    [SerializeField] private TMP_Text matchResultText;
 
     private void Start()
     {
@@ -20,7 +21,7 @@ public class PlayerNameDisplay : MonoBehaviour
     {
         playerNameText.text = newName.ToString();
     }
-
+    
     private void OnDestroy()
     {
         player.PlayerName.OnValueChanged -= HandlePlayerNameChanged;

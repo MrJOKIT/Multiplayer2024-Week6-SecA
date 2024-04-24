@@ -135,7 +135,7 @@ public class ScoreManager : NetworkBehaviour
         VictoryServerRpc();
         VictoryShow();
     }
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void VictoryServerRpc()
     {
         if(scorePlayerOne.Value >= 3)
@@ -183,7 +183,7 @@ public class ScoreManager : NetworkBehaviour
         ClientPlayAgain();
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void PlayAgainServerRpc()
     {
         victoryCanvas.SetActive(false);

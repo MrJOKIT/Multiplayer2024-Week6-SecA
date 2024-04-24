@@ -12,6 +12,8 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Settings")]
     [SerializeField] private float movementSpeed = 4f;
+    [SerializeField] private SpriteRenderer skin;
+    [SerializeField] private Animator _animator;
     //[SerializeField] private float turningRate = 30f;
 
     private Vector2 previousMovementInput;
@@ -73,6 +75,24 @@ public class PlayerMovement : NetworkBehaviour
         Vector3 movement = new Vector3(previousMovementInput.x, previousMovementInput.y);
 
         transform.position += movement * movementSpeed * Time.deltaTime;
+
+        if (movement.x > 0)
+        {
+            skin.flipX = true;
+        }
+        else if (movement.x < 0)
+        {
+            skin.flipX = false;
+        }
+
+        if (movement.x != 0 || movement.y != 0)
+        {
+            _animator.SetBool("Walk",true);
+        }
+        else if (movement.x == 0 && movement.y == 0)
+        {
+            _animator.SetBool("Walk",false);
+        }
     }
     
     private void HandleMove(Vector2 movementInput)

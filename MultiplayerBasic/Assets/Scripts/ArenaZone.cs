@@ -14,6 +14,8 @@ public class ArenaZone : NetworkBehaviour
             {
                 col.GetComponent<KabigonPlayer>().KabigonAdd();
             }
+            
+            col.GetComponent<PlayerHealth>().InArea();
         }
     }
 
@@ -21,7 +23,7 @@ public class ArenaZone : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerHealth>().InArea();
+            
         }
     }
 

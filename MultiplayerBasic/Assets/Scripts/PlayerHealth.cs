@@ -47,7 +47,7 @@ public class PlayerHealth : NetworkBehaviour
         }
         
         outAreaTime.OnValueChanged += HandleOutOfAreaChanged;
-        outOfAreaCheck.OnValueChanged += OutOfAreaHandle;
+        //utOfAreaCheck.OnValueChanged += OutOfAreaHandle;
         HandleOutOfAreaChanged(maxOutAreaTime,outAreaTime.Value);
         
     }
@@ -59,7 +59,7 @@ public class PlayerHealth : NetworkBehaviour
             return;
         }
         outAreaTime.OnValueChanged -= HandleOutOfAreaChanged;
-        outOfAreaCheck.OnValueChanged -= OutOfAreaHandle;
+        //outOfAreaCheck.OnValueChanged -= OutOfAreaHandle;
     }
 
     private void LateUpdate()
@@ -68,14 +68,15 @@ public class PlayerHealth : NetworkBehaviour
         {
             return;
         }
-        OutOfAreaHandle(false,outOfAreaCheck.Value);
+        //OutOfAreaHandle(false,outOfAreaCheck.Value);
+        OutOfAreaUpdateServerRpc();
     }
     
 
-    private void OutOfAreaHandle(bool oldCheck,bool newCheck)
+    /*private void OutOfAreaHandle(bool oldCheck,bool newCheck)
     {
-        OutOfAreaUpdateClientRpc();
-    }
+        OutOfAreaUpdateServerRpc();
+    }*/
     private void HandleOutOfAreaChanged(float oldPercent,float newOutArea)
     {
         float overCount = newOutArea;
@@ -132,8 +133,8 @@ public class PlayerHealth : NetworkBehaviour
         oneShot = false;
     }
     
-    [ClientRpc]
-    private void OutOfAreaUpdateClientRpc()
+    [ServerRpc(RequireOwnership = false)]
+    private void OutOfAreaUpdateServerRpc()
     {
         if (outOfAreaCheck.Value)
         {

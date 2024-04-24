@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4278632613845175442, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ae87bbc0a2ac41642843bfd2fed6b7aa, type: 2}
     - target: {fileID: 6113025928097511973, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
       propertyPath: speed
       value: 20
@@ -83,11 +87,15 @@ PrefabInstance:
     - target: {fileID: 8014865788981720535, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b0df3b14e7ed26742bbdb6e4920fc714, type: 3}
+      objectReference: {fileID: -8390030163010929573, guid: a3e3a89e1e22cc249b7888fb45d897d6, type: 3}
     - target: {fileID: 8014865788981720535, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8014865788981720535, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 28c4ba9dd321dca4cae09353a287b14f, type: 2}
     m_RemovedComponents:
     - {fileID: 8383647661893184097, guid: 7b1ba9c8b93b9f547ae6c67f3b22512d, type: 3}
     m_RemovedGameObjects:

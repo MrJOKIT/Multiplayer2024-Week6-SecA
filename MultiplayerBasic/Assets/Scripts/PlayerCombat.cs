@@ -11,12 +11,18 @@ public class BulletType
     public Transform serverAttack;
     public Transform clientAttack;
 }
+
+[Serializable]
+public class BulletSpawn
+{
+    public List<Transform> spawnAttack;
+}
 public class PlayerCombat : NetworkBehaviour
 {
     [SerializeField] private BulletType[] bulletTypes;
     [SerializeField] private float delayAttack;
     [SerializeField] private InputReader inputReader;
-    [SerializeField] private Transform sfxSpawn;
+    [SerializeField] private List<BulletSpawn> spawnBulletAttacks;
     [SerializeField] private float attackRadius;
     [SerializeField] private Collider2D playerCollider;
     private float timer;
@@ -94,19 +100,26 @@ public class PlayerCombat : NetworkBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(sfxSpawn.position,attackRadius);
+        foreach (var spawnAttackPos in spawnBulletAttacks[bulletTypeNumber.Value].spawnAttack)
+        {
+            Gizmos.DrawWireSphere(spawnAttackPos.position,attackRadius);
+        }
+        
     }
     
     [ServerRpc]
     private void PrimaryAttackServerRpc()
     {
-        Transform damageItem = Instantiate(bulletTypes[bulletTypeNumber.Value].serverAttack, sfxSpawn.position, sfxSpawn.rotation);
-        Physics2D.IgnoreCollision(playerCollider,damageItem.GetComponent<Collider2D>());
-        if(damageItem.TryGetComponent<DealDamageOnContact>(out DealDamageOnContact dealDamage))
+        foreach (var spawnAttackPos in spawnBulletAttacks[bulletTypeNumber.Value].spawnAttack)
         {
-            dealDamage.SetOwner(OwnerClientId);
+            Transform damageItem = Instantiate(bulletTypes[bulletTypeNumber.Value].serverAttack, spawnAttackPos.position, spawnAttackPos.rotation);
+            Physics2D.IgnoreCollision(playerCollider,damageItem.GetComponent<Collider2D>());
+            if(damageItem.TryGetComponent<DealDamageOnContact>(out DealDamageOnContact dealDamage))
+            {
+                dealDamage.SetOwner(OwnerClientId);
+            }
+            SpawnClientAttackClientRpc();
         }
-        SpawnClientAttackClientRpc();
     }
 
     [ServerRpc]
@@ -129,7 +142,11 @@ public class PlayerCombat : NetworkBehaviour
     }
     private void ClientAttack()
     {
-        Transform damageItem = Instantiate(bulletTypes[bulletTypeNumber.Value].clientAttack, sfxSpawn.position, sfxSpawn.rotation);
-        Physics2D.IgnoreCollision(playerCollider,damageItem.GetComponent<Collider2D>());
+        foreach (var spawnAttackPos in spawnBulletAttacks[bulletTypeNumber.Value].spawnAttack)
+        {
+            Transform damageItem = Instantiate(bulletTypes[bulletTypeNumber.Value].clientAttack, spawnAttackPos.position, spawnAttackPos.rotation);
+            Physics2D.IgnoreCollision(playerCollider,damageItem.GetComponent<Collider2D>());
+        }
+        
     }
 }
