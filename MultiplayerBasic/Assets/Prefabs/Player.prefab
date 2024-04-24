@@ -1327,6 +1327,7 @@ GameObject:
   - component: {fileID: 6990773231052344177}
   - component: {fileID: 1215974236348482747}
   - component: {fileID: 147187250507042397}
+  - component: {fileID: -597820172059874638}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1365,7 +1366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
+  GlobalObjectIdHash: 975283806
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -1619,6 +1620,8 @@ MonoBehaviour:
   sfxSpawn: {fileID: 5604597702179316977}
   attackRadius: 0.45
   playerCollider: {fileID: 3183950546906386727}
+  bulletTypeNumber:
+    m_InternalValue: 0
 --- !u!114 &1215974236348482747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1646,3 +1649,15 @@ MonoBehaviour:
   playerHealth: {fileID: 8950848857208832658}
   hitText: {fileID: 5868630593467883394}
   lifeText: {fileID: 5298660598371427683}
+--- !u!114 &-597820172059874638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8923566233319816646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b0ee338d98c84c48bbf65a626be386a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
