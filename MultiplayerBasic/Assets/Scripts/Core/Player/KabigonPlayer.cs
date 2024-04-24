@@ -14,6 +14,7 @@ public class KabigonPlayer : NetworkBehaviour
     //[field:SerializeField] public Health Health { get; private set; }
 
     [Header("Settings")]
+    [SerializeField] private GameObject playerCanvas;
     [SerializeField]
     private Texture2D crossHair;
     //private int ownerPriority = 15;
@@ -41,11 +42,11 @@ public class KabigonPlayer : NetworkBehaviour
             OnPlayerSpawned?.Invoke(this);
             
         }
-
         if (!IsOwner)
         {
             return;
         }
+        ShowHudServerRpc();
         Cursor.SetCursor(crossHair,new Vector2(crossHair.width/2,crossHair.height/2),CursorMode.Auto);
         
     }
@@ -58,13 +59,26 @@ public class KabigonPlayer : NetworkBehaviour
         }
     }
 
-    public void KabigonAdd()
+    [ServerRpc]
+    private void ShowHudServerRpc()
     {
-        if (!haveCam)
+        playerCanvas.SetActive(true);
+        ShowHudClientRpc();
+    }
+
+    [ClientRpc]
+    private void ShowHudClientRpc()
+    {
+        if (IsOwner)
         {
-            
-            haveCam = true;
+            return;
         }
+        ShowHud();
+    }
+
+    private void ShowHud()
+    {
+        playerCanvas.SetActive(true);
     }
     
 }

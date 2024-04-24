@@ -42,6 +42,7 @@ public class ColorSelector : MonoBehaviour
 
     public void SelectColor(int materialIndex)
     {
+        SoundManager.instancne.PlaySoundEffect(7);
         this.materialIndex = materialIndex;
         HandleColorChanged();
     }

@@ -21,6 +21,7 @@ public class PlayerHealth : NetworkBehaviour
     [SerializeField] public float maxHitPercent = 500;
 
     [Header("Ref")] 
+    public Animator animator;
     public KabigonPlayer kabigonPlayer;
     public TMP_Text overText;
     public Color lowHp,mediumHp,highHp;
@@ -112,6 +113,7 @@ public class PlayerHealth : NetworkBehaviour
     public void ReceiveDamage(float percent)
     {
         ModifyHealth(percent);
+        animator.SetTrigger("Hurt");
         
     }
 
@@ -156,7 +158,7 @@ public class PlayerHealth : NetworkBehaviour
     public void ApplyKnockBackClientRpc(float damage,Vector2 knockBackDirection)
     {
        
-        float knockBackMagnitude = hitPercent.Value + damage * 0.4f; 
+        float knockBackMagnitude = hitPercent.Value + damage * 0.15f; 
 
         Rigidbody2D playerRigidbody = GetComponent<Rigidbody2D>();
         if (playerRigidbody != null)

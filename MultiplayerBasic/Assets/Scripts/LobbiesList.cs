@@ -17,6 +17,8 @@ public class LobbiesList : MonoBehaviour
         RefreshList();
     }
 
+    
+
     public async void RefreshList()
     {
         if (isRefreshing)

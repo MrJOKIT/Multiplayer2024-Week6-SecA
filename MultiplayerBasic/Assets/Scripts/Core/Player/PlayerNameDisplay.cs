@@ -9,12 +9,13 @@ public class PlayerNameDisplay : MonoBehaviour
 {
     [SerializeField] private KabigonPlayer player;
     [SerializeField] private TMP_Text playerNameText;
-    [SerializeField] private TMP_Text matchResultText;
+    
 
     private void Start()
     {
         HandlePlayerNameChanged(string.Empty,player.PlayerName.Value);
         player.PlayerName.OnValueChanged += HandlePlayerNameChanged;
+
     }
 
     private void HandlePlayerNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)

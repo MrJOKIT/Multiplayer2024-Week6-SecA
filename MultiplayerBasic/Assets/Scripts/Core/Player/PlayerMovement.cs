@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float movementSpeed = 4f;
     [SerializeField] private SpriteRenderer skin;
     [SerializeField] private Animator _animator;
+    [SerializeField] private Image dashImage;
     //[SerializeField] private float turningRate = 30f;
 
     private Vector2 previousMovementInput;
@@ -47,6 +49,9 @@ public class PlayerMovement : NetworkBehaviour
         if (timer > 0)
         {
             timer -= Time.deltaTime;
+            var newTimer = timer / delayDash;
+            Debug.Log(newTimer);
+            dashImage.fillAmount = newTimer;
         }
 
         if (timer > 0)
@@ -108,7 +113,7 @@ public class PlayerMovement : NetworkBehaviour
     private void PrimaryDash()
     {
         StartCoroutine(Dash());
-        Debug.Log("Dash");
+        //Debug.Log("Dash");
     }
     
     IEnumerator Dash()

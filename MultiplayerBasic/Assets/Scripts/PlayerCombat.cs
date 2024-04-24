@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class BulletType
@@ -19,6 +20,7 @@ public class BulletSpawn
 }
 public class PlayerCombat : NetworkBehaviour
 {
+    [SerializeField] private Image iconBullet;
     [SerializeField] private BulletType[] bulletTypes;
     [SerializeField] private float delayAttack;
     [SerializeField] private InputReader inputReader;
@@ -66,6 +68,8 @@ public class PlayerCombat : NetworkBehaviour
         {
             return;
         }
+
+        ChangeIconBulletServerRpc();
         
         if (timer>0)
         {
@@ -77,6 +81,7 @@ public class PlayerCombat : NetworkBehaviour
             return;
         }
         if(timer > 0){ return; }
+        SoundManager.instancne.PlaySoundEffect(bulletTypeNumber.Value);
         PrimaryAttackServerRpc();
         ClientAttack();
 
@@ -106,7 +111,29 @@ public class PlayerCombat : NetworkBehaviour
         }
         
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ChangeIconBulletServerRpc()
+    {
+        iconBullet.sprite = bulletTypes[bulletTypeNumber.Value].serverAttack.transform.gameObject
+            .GetComponent<SpriteRenderer>().sprite;
+        ChangeIconBulletClientRpc();
+    }
     
+    [ClientRpc]
+    private void ChangeIconBulletClientRpc(){
+        if (IsOwner)
+        {
+            return;
+        }
+        ChangeIcon();
+    }
+
+    private void ChangeIcon()
+    {
+        iconBullet.sprite = bulletTypes[bulletTypeNumber.Value].serverAttack.transform.gameObject
+            .GetComponent<SpriteRenderer>().sprite;
+    }
     [ServerRpc]
     private void PrimaryAttackServerRpc()
     {

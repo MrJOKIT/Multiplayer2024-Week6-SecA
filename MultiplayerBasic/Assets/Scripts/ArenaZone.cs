@@ -4,17 +4,17 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class ArenaZone : NetworkBehaviour
+public class ArenaZone : MonoBehaviour
 {
+    private void Start()
+    {
+        SoundManager.instancne.PlayMusic(2);
+    }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
-            if (col.GetComponent<KabigonPlayer>().OwnerClientId == OwnerClientId)
-            {
-                col.GetComponent<KabigonPlayer>().KabigonAdd();
-            }
-            
             col.GetComponent<PlayerHealth>().InArea();
         }
     }
