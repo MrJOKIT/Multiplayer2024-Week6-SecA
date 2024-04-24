@@ -24,8 +24,10 @@ public class ScoreManager : NetworkBehaviour
     public List<GameObject> scoreImagePlayerTwo;
     [Header("Gameplay")] 
     public GameObject victoryCanvas;
+    public TextMeshProUGUI playNameWinText;
     
-    private FixedString32Bytes playerName;
+    public string playerNameOne;
+    public string playerNameTwo;
     private ulong ClientId { get; set; }
 
     private void Awake()
@@ -48,6 +50,23 @@ public class ScoreManager : NetworkBehaviour
         if(!IsClient) { return; }
         scorePlayerOne.OnValueChanged -= HandleUpdateScore;
         scorePlayerTwo.OnValueChanged -= HandleUpdateScore;
+    }
+
+    public void InitializeName(ulong clientId)
+    {
+        UserData userData = 
+            HostSingleton.Instance.GameManager.NetworkServer.GetUserDataByClientId(clientId);
+        ClientId = clientId;
+        if (ClientId == 0)
+        {
+            playerNameOne = userData.userName;
+
+        }
+        else if (ClientId == 1)
+        {
+            playerNameTwo = userData.userName;
+
+        }
     }
 
     public void Initialized(ulong clientId) //, FixedString32Bytes playerName
@@ -115,11 +134,29 @@ public class ScoreManager : NetworkBehaviour
         if(scorePlayerOne.Value >= 3)
         {
             victoryCanvas.SetActive(true);
+            playNameWinText.text = playerNameOne + " WIN";
         }
         else if (scorePlayerTwo.Value >= 3)
         {
             victoryCanvas.SetActive(true);
+            playNameWinText.text = playerNameTwo + " WIN";
         }
+    }
+
+    
+    [ClientRpc]
+    public void PlayAgainClientRpc()
+    {
+        victoryCanvas.SetActive(false);
+        scorePlayerOne.Value = 0;
+        scorePlayerTwo.Value = 0;
+        
+        ClientPlayAgain();
+    }
+
+    private void ClientPlayAgain()
+    {
+        victoryCanvas.SetActive(false);
     }
     
 }

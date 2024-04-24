@@ -17,7 +17,7 @@ public class PlayerHealth : NetworkBehaviour
     public NetworkVariable<int> life = new NetworkVariable<int>(2);
     [field: SerializeField] public int maxLife = 2;*/
     [Header("Hit Percent")]
-    public NetworkVariable<float> hitPercent = new NetworkVariable<float>(0);
+    public NetworkVariable<float> hitPercent = new NetworkVariable<float>(0.1f);
     [SerializeField] public float maxHitPercent = 500;
 
     [Header("Ref")] 
@@ -35,6 +35,7 @@ public class PlayerHealth : NetworkBehaviour
     private void Start()
     {
         clinetId = OwnerClientId;
+        
     }
 
     public override void OnNetworkSpawn()
@@ -43,10 +44,11 @@ public class PlayerHealth : NetworkBehaviour
         {
             return;
         }
-
+        
         outAreaTime.OnValueChanged += HandleOutOfAreaChanged;
         outOfAreaCheck.OnValueChanged += OutOfAreaHandle;
         HandleOutOfAreaChanged(maxOutAreaTime,outAreaTime.Value);
+        
     }
 
     public override void OnNetworkDespawn()
@@ -71,21 +73,7 @@ public class PlayerHealth : NetworkBehaviour
 
     private void OutOfAreaHandle(bool oldCheck,bool newCheck)
     {
-        if (outOfAreaCheck.Value)
-        {
-            outAreaTime.Value -= Time.deltaTime;
-            if (outAreaTime.Value <= 0)
-            {
-                OnDie?.Invoke(this);
-                PlayerDie();
-            }
-        }
-        else
-        {
-            outAreaTime.Value = Mathf.Clamp(maxOutAreaTime, 0, maxOutAreaTime);
-            overText.text = string.Empty;
-        }
-        
+        OutOfAreaUpdateClientRpc();
     }
     private void HandleOutOfAreaChanged(float oldPercent,float newOutArea)
     {
@@ -105,6 +93,7 @@ public class PlayerHealth : NetworkBehaviour
     public void OutOfArea()
     {
         outOfAreaCheck.Value = true;
+        ScoreManager.instance.InitializeName(OwnerClientId);
     }
 
     public void InArea()
@@ -116,6 +105,7 @@ public class PlayerHealth : NetworkBehaviour
     public void ReceiveDamage(float percent)
     {
         ModifyHealth(percent);
+        
     }
 
     private void ModifyHealth(float value)
@@ -134,4 +124,44 @@ public class PlayerHealth : NetworkBehaviour
         ProCamera2D.Instance.RemoveCameraTarget(transform);
         RespawnHandler.instance.HandlePlayerDespawned(kabigonPlayer);
     }
+    
+    [ClientRpc]
+    private void OutOfAreaUpdateClientRpc()
+    {
+        if (outOfAreaCheck.Value)
+        {
+            outAreaTime.Value -= Time.deltaTime;
+            if (outAreaTime.Value <= 0)
+            {
+                OnDie?.Invoke(this);
+                PlayerDie();
+            }
+        }
+        else
+        {
+            outAreaTime.Value = Mathf.Clamp(maxOutAreaTime, 0, maxOutAreaTime);
+            overText.text = string.Empty;
+        }
+    }
+
+    [ClientRpc]
+    public void ApplyKnockBackClientRpc(float damage,Vector2 knockBackDirection)
+    {
+       
+        float knockBackMagnitude = hitPercent.Value + damage * 0.4f; 
+
+        Rigidbody2D playerRigidbody = GetComponent<Rigidbody2D>();
+        if (playerRigidbody != null)
+        {
+            playerRigidbody.AddForce(knockBackDirection.normalized * knockBackMagnitude, ForceMode2D.Impulse); 
+            StartCoroutine(StopKnockBack(playerRigidbody));
+        }
+    }
+
+    private IEnumerator StopKnockBack(Rigidbody2D rb)
+    {
+        yield return new WaitForSeconds(0.1f); // ระยะเวลา
+        rb.velocity = Vector2.zero;
+    }
+
 }

@@ -1619,6 +1619,8 @@ MonoBehaviour:
   sfxSpawn: {fileID: 5604597702179316977}
   attackRadius: 0.45
   playerCollider: {fileID: 3183950546906386727}
+  bulletTypeNumber:
+    m_InternalValue: 0
 --- !u!114 &1215974236348482747
 MonoBehaviour:
   m_ObjectHideFlags: 0

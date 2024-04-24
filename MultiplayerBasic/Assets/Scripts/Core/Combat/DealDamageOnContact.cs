@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class DealDamageOnContact : MonoBehaviour
+public class DealDamageOnContact : NetworkBehaviour
 {
     [SerializeField] private float damage = 20;
 
@@ -15,20 +13,22 @@ public class DealDamageOnContact : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.attachedRigidbody == null) {  return; }
+        if (col.attachedRigidbody == null) { return; }
 
-        if(col.attachedRigidbody.TryGetComponent<NetworkObject>(out NetworkObject netObj))
+        if (col.attachedRigidbody.TryGetComponent<NetworkObject>(out NetworkObject netObj))
         {
-            if(ownerClientId == netObj.OwnerClientId)
+            if (ownerClientId == netObj.OwnerClientId)
             {
                 return;
             }
         }
 
-        if(col.attachedRigidbody.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+        if (col.attachedRigidbody.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
         {
             Vector2 knockBackDirection = (col.transform.position - transform.position).normalized;
+            playerHealth.ApplyKnockBackClientRpc(damage,knockBackDirection);
             playerHealth.ReceiveDamage(damage);
+            
         }
     }
 }

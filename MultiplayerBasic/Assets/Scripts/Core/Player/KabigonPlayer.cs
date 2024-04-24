@@ -44,6 +44,7 @@ public class KabigonPlayer : NetworkBehaviour
 
         if (IsOwner)
         {
+            
             Cursor.SetCursor(crossHair,new Vector2(crossHair.width/2,crossHair.height/2),CursorMode.Auto);
         }
         
