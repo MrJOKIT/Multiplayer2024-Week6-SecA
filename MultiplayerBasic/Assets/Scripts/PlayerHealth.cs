@@ -114,7 +114,8 @@ public class PlayerHealth : NetworkBehaviour
     {
         ModifyHealth(percent);
         animator.SetTrigger("Hurt");
-        
+        ProCamera2DShake.Instance.Shake(0);
+
     }
 
     private void ModifyHealth(float value)
